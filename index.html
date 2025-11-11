@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ludus Latinus</title>
   <style>
     body {
@@ -12,54 +12,111 @@
       background: #f4f4f4;
       color: #333;
     }
+
     header {
       background: #0070f3;
       color: white;
       padding: 1rem;
       text-align: center;
     }
+
     nav {
       background: #eee;
       padding: 0.5rem;
       text-align: center;
     }
+
     nav a {
       margin: 0 1rem;
       text-decoration: none;
       color: #0070f3;
     }
+
     main {
       padding: 2rem;
-      max-width: 800px;
-      margin: auto;
+      max-width: 1000px;
+      margin: 1.5rem auto;
       background: white;
       border-radius: 8px;
     }
+
+    /* New: two-column layout inside main */
+    .hero {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .hero .text {
+      flex: 1 1 55%;
+      min-width: 220px;
+    }
+
+    .hero .image {
+      flex: 0 0 40%;
+      text-align: right;
+    }
+
+    .hero .image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      display: inline-block;
+    }
+
     footer {
       text-align: center;
       padding: 1rem;
       background: #ddd;
       margin-top: 2rem;
     }
+
+    /* Responsive: on small screens stack vertically and center image */
+    @media (max-width: 720px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+      .hero .image {
+        text-align: center;
+        width: 100%;
+      }
+      .hero .text {
+        order: 2;
+      }
+      .hero .image {
+        order: 1;
+        margin-bottom: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>Ludus Latinus</h1>
-    <p>Ein Latein Räsel </p>
+    <p>Ein Latein Räsel</p>
   </header>
 
   <main>
-    <h2>Salve!</h2>
-    <p>
-      Ludus quaestionum Latinorum: responde simpliciter et cresce sapientia tua.
-    </p>
-    <p>
-      Ein Spiel mit einfachen lateinischen Fragen: Antworte und lass dein Wissen wachsen.
-    </p>
-    <p>
-      Es Spiel mit eifache lateinische Froge: gibb e Antwort und loss dis Wüsse wachse.
-    </p>
+    <div class="hero">
+      <div class="text">
+        <h2>Salve!</h2>
+        <p>
+          Ludus quaestionum Latinorum: responde simpliciter et cresce sapientia tua.
+        </p>
+        <p>
+          Ein Spiel mit einfachen lateinischen Fragen: Antworte und lass dein Wissen wachsen.
+        </p>
+        <p>
+          Es Spiel mit eifache lateinische Froge: gibb e Antwort und loss dis Wüsse wachse.
+        </p>
+      </div>
+
+      <div class="image">
+        <img src="/images/your-image.png" alt="Ludus Latinus" />
+      </div>
+    </div>
   </main>
 
   <footer>
