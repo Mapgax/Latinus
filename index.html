@@ -412,6 +412,23 @@
             border-radius: 8px;
             margin-top: 1rem;
         }
+        .back-btn {
+            padding: 0.5rem 1.2rem;
+            background: transparent;
+            border: 2px solid var(--ancient-stone);
+            color: var(--ancient-stone);
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+        }
+
+        .back-btn:hover {
+            background: var(--ancient-stone);
+            color: var(--marble-white);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -467,6 +484,10 @@
                 <div class="question-header">
                     <span class="difficulty-badge" id="difficultyBadge"></span>
                     <span class="question-number" id="questionNumber"></span>
+                    <button class="back-btn" onclick="backToStart()"
+                            data-de="Neu starten" data-la="Ab initio" data-ch="Neu starte">
+                        Neu starten
+                    </button>
                 </div>
 
                 <div class="loading" id="loading">
@@ -493,10 +514,10 @@
             <p>© 2025 - Condita a Mirjam Döpfert, Lehrperson für Latein an der KSK</p>
             <p style="margin-top: 0.5rem; font-size: 0.8rem;">
                 <!-- GEÄNDERT: "Potentia Claudii AI" → "Potentia OpenAI" (ihr nutzt OpenAI, nicht Claude) -->
-                <span data-de="Powered by OpenAI - Keine Daten werden gespeichert"
-                      data-la="Potentia OpenAI - Nulla data servantur"
-                      data-ch="Powered by OpenAI - Kei Date werded gspeicheret">
-                    Powered by OpenAI - Keine Daten werden gespeichert
+                <span data-de="Powered by Claude AI & OpenAI - Keine Daten werden gespeichert"
+                      data-la="Potentia Claude AI et OpenAI - Nulla data servantur"
+                      data-ch="Powered by Claude AI & OpenAI - Kei Date werded gspeicheret">
+                    Powered by Claude AI & OpenAI - Keine Daten werden gespeichert
                 </span>
             </p>
         </footer>
@@ -700,6 +721,31 @@
             document.getElementById('score').textContent = score;
             document.getElementById('correct').textContent = correctAnswers;
             document.getElementById('total').textContent = totalQuestions;
+        }
+
+        // Back to Start
+        function backToStart() {
+            currentDifficulty = null;
+            currentQuestion = null;
+            score = 0;
+            correctAnswers = 0;
+            totalQuestions = 0;
+            previousQuestions = [];
+
+            updateScore();
+
+            document.getElementById('questionContainer').classList.remove('active');
+            document.getElementById('difficultySelection').style.display = '';
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('questionContent').style.display = 'none';
+
+            // Loading-Inhalt zurücksetzen (falls Fehlermeldung angezeigt wurde)
+            document.getElementById('loading').innerHTML = `
+                <div class="spinner"></div>
+                <p data-de="Frage wird geladen..." data-la="Quaestio paratur..." data-ch="Frag wird glade...">
+                    ${currentLanguage === 'la' ? 'Quaestio paratur...' : currentLanguage === 'ch' ? 'Frag wird glade...' : 'Frage wird geladen...'}
+                </p>
+            `;
         }
 
         // Initialize
