@@ -69,6 +69,12 @@
             letter-spacing: 0.05em;
             text-shadow: 2px 2px 4px var(--soft-shadow);
             margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        h1:hover {
+            opacity: 0.8;
         }
 
         .subtitle {
@@ -213,6 +219,15 @@
         .difficulty-btn:hover::before {
             width: 300px;
             height: 300px;
+        }
+
+        .difficulty-btn .points-hint {
+            display: block;
+            font-family: 'Crimson Pro', serif;
+            font-size: 0.85rem;
+            font-weight: 400;
+            margin-top: 0.3rem;
+            opacity: 0.7;
         }
 
         .question-container {
@@ -434,14 +449,12 @@
 <body>
     <div class="container">
         <header>
-            <h1>Ludus Latinus</h1>
-            <!-- GEÄNDERT: "Latinorum" → "Latinarum" (quaestio ist feminin) -->
+            <h1 onclick="resetToStart()" title="Zurück zum Start">Ludus Latinus</h1>
             <p class="subtitle" data-de="Latein spielerisch lernen" data-la="Ludus quaestionum Latinarum" data-ch="Latyn spielerisch lerne">
                 Latein spielerisch lernen
             </p>
             <div class="language-selector">
                 <button class="lang-btn active" data-lang="de">Deutsch</button>
-                <!-- GEÄNDERT: "Latina" → "Latine" (Adverb = "auf Lateinisch") -->
                 <button class="lang-btn" data-lang="la">Latine</button>
                 <button class="lang-btn" data-lang="ch">Schwiizerdütsch</button>
             </div>
@@ -468,14 +481,17 @@
                     Wähle deinen Schwierigkeitsgrad
                 </h2>
                 <div class="difficulty-buttons">
-                    <button class="difficulty-btn" onclick="startGame('easy')" data-de="Einfach" data-la="Facilis" data-ch="Eifach">
-                        Einfach
+                    <button class="difficulty-btn" onclick="startGame('easy')">
+                        <span data-de="Einfach" data-la="Facilis" data-ch="Eifach">Einfach</span>
+                        <span class="points-hint" data-de="10 Punkte" data-la="X puncta" data-ch="10 Pünkt">10 Punkte</span>
                     </button>
-                    <button class="difficulty-btn" onclick="startGame('medium')" data-de="Mittel" data-la="Medius" data-ch="Mittel">
-                        Mittel
+                    <button class="difficulty-btn" onclick="startGame('medium')">
+                        <span data-de="Mittel" data-la="Medius" data-ch="Mittel">Mittel</span>
+                        <span class="points-hint" data-de="25 Punkte" data-la="XXV puncta" data-ch="25 Pünkt">25 Punkte</span>
                     </button>
-                    <button class="difficulty-btn" onclick="startGame('hard')" data-de="Schwer" data-la="Difficilis" data-ch="Schwär">
-                        Schwer
+                    <button class="difficulty-btn" onclick="startGame('hard')">
+                        <span data-de="Schwer" data-la="Difficilis" data-ch="Schwär">Schwer</span>
+                        <span class="points-hint" data-de="50 Punkte" data-la="L puncta" data-ch="50 Pünkt">50 Punkte</span>
                     </button>
                 </div>
             </div>
@@ -484,9 +500,9 @@
                 <div class="question-header">
                     <span class="difficulty-badge" id="difficultyBadge"></span>
                     <span class="question-number" id="questionNumber"></span>
-                    <button class="back-btn" onclick="backToStart()"
-                            data-de="Neu starten" data-la="Ab initio" data-ch="Neu starte">
-                        Neu starten
+                    <button class="back-btn" onclick="changeDifficulty()"
+                            data-de="Level anpassen" data-la="Gradum mutare" data-ch="Level apasse">
+                        Level anpassen
                     </button>
                 </div>
 
@@ -510,10 +526,8 @@
         </div>
 
         <footer>
-            <!-- GEÄNDERT: "Conditus" → "Condita" (weibliche Form für Mirjam) -->
             <p>© 2025 - Condita a Mirjam Döpfert, Lehrperson für Latein an der KSK</p>
             <p style="margin-top: 0.5rem; font-size: 0.8rem;">
-                <!-- GEÄNDERT: "Potentia Claudii AI" → "Potentia OpenAI" (ihr nutzt OpenAI, nicht Claude) -->
                 <span data-de="Powered by Claude AI & OpenAI - Keine Daten werden gespeichert"
                       data-la="Potentia Claude AI et OpenAI - Nulla data servantur"
                       data-ch="Powered by Claude AI & OpenAI - Kei Date werded gspeicheret">
@@ -531,7 +545,14 @@
         let score = 0;
         let correctAnswers = 0;
         let totalQuestions = 0;
-        let previousQuestions = []; // GEÄNDERT: Tracking für bereits gestellte Fragen
+        let previousQuestions = [];
+
+        // Point values per difficulty
+        const pointValues = {
+            easy: 10,
+            medium: 25,
+            hard: 50
+        };
 
         // Translations
         const translations = {
@@ -608,7 +629,6 @@
             document.getElementById('nextBtn').classList.remove('show');
 
             try {
-                // GEÄNDERT: previousQuestions wird mitgesendet
                 const response = await fetch('/api/question', {
                     method: 'POST',
                     headers: {
@@ -627,7 +647,7 @@
                 }
 
                 currentQuestion = await response.json();
-                previousQuestions.push(currentQuestion.question); // GEÄNDERT: Frage merken
+                previousQuestions.push(currentQuestion.question);
                 displayQuestion();
 
             } catch (error) {
@@ -684,7 +704,7 @@
 
             if (isCorrect) {
                 correctAnswers++;
-                score += currentDifficulty === 'easy' ? 10 : currentDifficulty === 'medium' ? 20 : 30;
+                score += pointValues[currentDifficulty];
             }
 
             updateScore();
@@ -723,14 +743,33 @@
             document.getElementById('total').textContent = totalQuestions;
         }
 
-        // Back to Start
-        function backToStart() {
+        // Change Difficulty (keeps score)
+        function changeDifficulty() {
             currentDifficulty = null;
             currentQuestion = null;
+
+            document.getElementById('questionContainer').classList.remove('active');
+            document.getElementById('difficultySelection').style.display = '';
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('questionContent').style.display = 'none';
+
+            // Reset loading content in case error was shown
+            document.getElementById('loading').innerHTML = `
+                <div class="spinner"></div>
+                <p data-de="Frage wird geladen..." data-la="Quaestio paratur..." data-ch="Frag wird glade...">
+                    ${currentLanguage === 'la' ? 'Quaestio paratur...' : currentLanguage === 'ch' ? 'Frag wird glade...' : 'Frage wird geladen...'}
+                </p>
+            `;
+        }
+
+        // Full Reset (header click)
+        function resetToStart() {
             score = 0;
             correctAnswers = 0;
             totalQuestions = 0;
             previousQuestions = [];
+            currentDifficulty = null;
+            currentQuestion = null;
 
             updateScore();
 
@@ -739,7 +778,6 @@
             document.getElementById('loading').style.display = 'none';
             document.getElementById('questionContent').style.display = 'none';
 
-            // Loading-Inhalt zurücksetzen (falls Fehlermeldung angezeigt wurde)
             document.getElementById('loading').innerHTML = `
                 <div class="spinner"></div>
                 <p data-de="Frage wird geladen..." data-la="Quaestio paratur..." data-ch="Frag wird glade...">
