@@ -33,7 +33,6 @@
             overflow-x: hidden;
         }
 
-        /* Decorative background pattern */
         body::before {
             content: '';
             position: fixed;
@@ -41,7 +40,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
+            background-image:
                 repeating-linear-gradient(90deg, transparent, transparent 100px, rgba(139, 115, 85, 0.03) 100px, rgba(139, 115, 85, 0.03) 102px),
                 repeating-linear-gradient(0deg, transparent, transparent 100px, rgba(139, 115, 85, 0.03) 100px, rgba(139, 115, 85, 0.03) 102px);
             pointer-events: none;
@@ -56,7 +55,6 @@
             z-index: 1;
         }
 
-        /* Header */
         header {
             text-align: center;
             margin-bottom: 3rem;
@@ -107,7 +105,6 @@
             box-shadow: 0 4px 8px var(--soft-shadow);
         }
 
-        /* Score Display */
         .score-display {
             background: white;
             padding: 1.5rem;
@@ -139,7 +136,6 @@
             color: var(--terra-cotta);
         }
 
-        /* Main Card */
         .game-card {
             background: white;
             padding: 3rem;
@@ -160,7 +156,6 @@
             background: linear-gradient(90deg, var(--terra-cotta), var(--roman-gold), var(--terra-cotta));
         }
 
-        /* Difficulty Selection */
         .difficulty-selection {
             text-align: center;
         }
@@ -220,7 +215,6 @@
             height: 300px;
         }
 
-        /* Question Display */
         .question-container {
             display: none;
         }
@@ -374,7 +368,6 @@
             box-shadow: 0 4px 12px var(--soft-shadow);
         }
 
-        /* Footer */
         footer {
             text-align: center;
             margin-top: 3rem;
@@ -384,66 +377,31 @@
             animation: fadeIn 0.5s ease 0.6s backwards;
         }
 
-        /* Animations */
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+            to { transform: rotate(360deg); }
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .game-card {
-                padding: 2rem 1.5rem;
-            }
-
-            .difficulty-buttons {
-                flex-direction: column;
-            }
-
-            .difficulty-btn {
-                width: 100%;
-            }
-
-            .score-display {
-                flex-direction: column;
-                gap: 1rem;
-            }
+            h1 { font-size: 2.5rem; }
+            .game-card { padding: 2rem 1.5rem; }
+            .difficulty-buttons { flex-direction: column; }
+            .difficulty-btn { width: 100%; }
+            .score-display { flex-direction: column; gap: 1rem; }
         }
 
         .error-message {
@@ -460,12 +418,14 @@
     <div class="container">
         <header>
             <h1>Ludus Latinus</h1>
-            <p class="subtitle" data-de="Latein spielerisch lernen" data-la="Ludus quaestionum Latinorum" data-ch="Latyn spielerisch lerne">
+            <!-- GEÄNDERT: "Latinorum" → "Latinarum" (quaestio ist feminin) -->
+            <p class="subtitle" data-de="Latein spielerisch lernen" data-la="Ludus quaestionum Latinarum" data-ch="Latyn spielerisch lerne">
                 Latein spielerisch lernen
             </p>
             <div class="language-selector">
                 <button class="lang-btn active" data-lang="de">Deutsch</button>
-                <button class="lang-btn" data-lang="la">Latina</button>
+                <!-- GEÄNDERT: "Latina" → "Latine" (Adverb = "auf Lateinisch") -->
+                <button class="lang-btn" data-lang="la">Latine</button>
                 <button class="lang-btn" data-lang="ch">Schwiizerdütsch</button>
             </div>
         </header>
@@ -508,7 +468,7 @@
                     <span class="difficulty-badge" id="difficultyBadge"></span>
                     <span class="question-number" id="questionNumber"></span>
                 </div>
-                
+
                 <div class="loading" id="loading">
                     <div class="spinner"></div>
                     <p data-de="Frage wird geladen..." data-la="Quaestio paratur..." data-ch="Frag wird glade...">Frage wird geladen...</p>
@@ -529,12 +489,14 @@
         </div>
 
         <footer>
-            <p>© 2025 - Conditus a Mirjam Döpfert, Lehrperson für Latein an der KSK</p>
+            <!-- GEÄNDERT: "Conditus" → "Condita" (weibliche Form für Mirjam) -->
+            <p>© 2025 - Condita a Mirjam Döpfert, Lehrperson für Latein an der KSK</p>
             <p style="margin-top: 0.5rem; font-size: 0.8rem;">
-                <span data-de="Powered by Claude AI - Keine Daten werden gespeichert" 
-                      data-la="Potentia Claudii AI - Nulla data servantur" 
-                      data-ch="Powered by Claude AI - Kei Date werded gspeicheret">
-                    Powered by Claude AI - Keine Daten werden gespeichert
+                <!-- GEÄNDERT: "Potentia Claudii AI" → "Potentia OpenAI" (ihr nutzt OpenAI, nicht Claude) -->
+                <span data-de="Powered by OpenAI - Keine Daten werden gespeichert"
+                      data-la="Potentia OpenAI - Nulla data servantur"
+                      data-ch="Powered by OpenAI - Kei Date werded gspeicheret">
+                    Powered by OpenAI - Keine Daten werden gespeichert
                 </span>
             </p>
         </footer>
@@ -548,6 +510,7 @@
         let score = 0;
         let correctAnswers = 0;
         let totalQuestions = 0;
+        let previousQuestions = []; // GEÄNDERT: Tracking für bereits gestellte Fragen
 
         // Translations
         const translations = {
@@ -609,10 +572,10 @@
             currentDifficulty = difficulty;
             document.getElementById('difficultySelection').style.display = 'none';
             document.getElementById('questionContainer').classList.add('active');
-            
+
             const badge = document.getElementById('difficultyBadge');
             badge.textContent = translations[currentLanguage][`difficulty${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}`];
-            
+
             loadQuestion();
         }
 
@@ -624,14 +587,15 @@
             document.getElementById('nextBtn').classList.remove('show');
 
             try {
-                // Call Vercel Serverless Function
+                // GEÄNDERT: previousQuestions wird mitgesendet
                 const response = await fetch('/api/question', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        difficulty: currentDifficulty
+                        difficulty: currentDifficulty,
+                        previousQuestions: previousQuestions
                     })
                 });
 
@@ -642,8 +606,9 @@
                 }
 
                 currentQuestion = await response.json();
+                previousQuestions.push(currentQuestion.question); // GEÄNDERT: Frage merken
                 displayQuestion();
-                
+
             } catch (error) {
                 console.error('Error loading question:', error);
                 document.getElementById('loading').innerHTML = `
@@ -665,14 +630,14 @@
             totalQuestions++;
             document.getElementById('loading').style.display = 'none';
             document.getElementById('questionContent').style.display = 'block';
-            
-            document.getElementById('questionNumber').textContent = 
+
+            document.getElementById('questionNumber').textContent =
                 `${translations[currentLanguage].questionPrefix} ${totalQuestions}`;
             document.getElementById('questionText').textContent = currentQuestion.question;
-            
+
             const optionsContainer = document.getElementById('answerOptions');
             optionsContainer.innerHTML = '';
-            
+
             currentQuestion.options.forEach((option, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'answer-btn';
@@ -690,7 +655,7 @@
             buttons.forEach(btn => btn.disabled = true);
 
             const isCorrect = selectedIndex === currentQuestion.correctIndex;
-            
+
             buttons[selectedIndex].classList.add(isCorrect ? 'correct' : 'incorrect');
             if (!isCorrect) {
                 buttons[currentQuestion.correctIndex].classList.add('correct');
@@ -711,15 +676,15 @@
             const feedbackTitle = document.getElementById('feedbackTitle');
             const feedbackText = document.getElementById('feedbackText');
 
-            feedbackTitle.textContent = isCorrect ? 
-                translations[currentLanguage].correct : 
+            feedbackTitle.textContent = isCorrect ?
+                translations[currentLanguage].correct :
                 translations[currentLanguage].incorrect;
-            
+
             let explanation = currentQuestion.explanation;
             if (!isCorrect) {
                 explanation = `${translations[currentLanguage].correctAnswer} ${currentQuestion.options[currentQuestion.correctIndex]}\n\n${explanation}`;
             }
-            
+
             feedbackText.textContent = explanation;
             feedback.classList.add('show');
             document.getElementById('nextBtn').classList.add('show');
