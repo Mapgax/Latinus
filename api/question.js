@@ -34,6 +34,10 @@ export default async function handler(req, res) {
 
     const prompt = `Erstelle eine ${difficultyDescriptions[difficulty]} lateinische Quiz-Frage für Schweizer Gymnasiasten.
 
+[Zeitstempel: ${new Date().toISOString()}]
+
+WICHTIG: Erstelle eine NEUE, ANDERE Frage - keine Wiederholungen!
+
 FRAGETYPEN (abwechslungsreich mischen):
 - Vokabelübersetzung (Latein → Deutsch): z.B. "Was bedeutet 'puella'?"
 - Grammatikfrage (Konjugation, Deklination): z.B. "Welche Form ist 'laudavisti'?"
@@ -97,7 +101,7 @@ WICHTIG: Qualität vor Kreativität - lieber eine sichere, korrekte Frage als ei
                         content: prompt
                     }
                 ],
-                temperature: 0.3,
+                temperature: 0.6,
                 max_tokens: 600
             })
         });
@@ -113,6 +117,14 @@ WICHTIG: Qualität vor Kreativität - lieber eine sichere, korrekte Frage als ei
 
         const data = await response.json();
         const content = data.choices[0].message.content;
+
+        // Debug: Log für Vercel (um zu sehen, ob API aufgerufen wird)
+        console.log('✅ Question generated:', {
+            difficulty: difficulty,
+            timestamp: new Date().toISOString(),
+            tokensUsed: data.usage?.total_tokens,
+            questionPreview: content.substring(0, 100) + '...'
+        });
 
         // Parse JSON (entferne mögliche Markdown-Formatierung)
         let questionData;
