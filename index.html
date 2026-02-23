@@ -3,343 +3,513 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ludus Latinus - Latein spielerisch lernen</title>
+    <title>Ludus Latinus – Latein spielerisch lernen</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --terra-cotta: #C1666B;
-            --roman-gold: #D4AF37;
-            --marble-white: #F5F1E8;
-            --ancient-stone: #8B7355;
-            --deep-bronze: #6B4423;
-            --olive-green: #5F7161;
-            --soft-shadow: rgba(107, 68, 35, 0.15);
+            --bg:           #07091a;
+            --pink:         #FF2D78;
+            --gold:         #FFD700;
+            --cyan:         #00F5FF;
+            --purple:       #B44FFF;
+            --green:        #22c55e;
+            --orange:       #f59e0b;
+            --red:          #ef4444;
+            --glass:        rgba(255,255,255,0.07);
+            --glass-border: rgba(255,255,255,0.14);
+            --text:         #EEF0FF;
+            --text-dim:     rgba(238,240,255,0.5);
         }
 
         body {
-            font-family: 'Crimson Pro', serif;
-            background: linear-gradient(135deg, var(--marble-white) 0%, #E8DCC4 100%);
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
             min-height: 100vh;
-            color: var(--deep-bronze);
-            position: relative;
+            color: var(--text);
             overflow-x: hidden;
+            position: relative;
         }
 
-        body::before {
-            content: '';
+        /* ── Ambient light blobs (pure CSS, no JS) ─────────────────── */
+        .blob {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                repeating-linear-gradient(90deg, transparent, transparent 100px, rgba(139, 115, 85, 0.03) 100px, rgba(139, 115, 85, 0.03) 102px),
-                repeating-linear-gradient(0deg, transparent, transparent 100px, rgba(139, 115, 85, 0.03) 100px, rgba(139, 115, 85, 0.03) 102px);
+            border-radius: 50%;
             pointer-events: none;
             z-index: 0;
+            filter: blur(80px);
+            animation: drift 20s ease-in-out infinite alternate;
+        }
+        .blob-1 {
+            width: 550px; height: 550px;
+            top: -180px; left: -180px;
+            background: radial-gradient(circle, rgba(255,45,120,0.22), transparent 70%);
+            animation-duration: 18s;
+        }
+        .blob-2 {
+            width: 480px; height: 480px;
+            bottom: -120px; right: -120px;
+            background: radial-gradient(circle, rgba(0,245,255,0.16), transparent 70%);
+            animation-duration: 24s;
+            animation-direction: alternate-reverse;
+        }
+        .blob-3 {
+            width: 380px; height: 380px;
+            top: 45%; left: 48%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(180,79,255,0.13), transparent 70%);
+            animation-duration: 30s;
+        }
+        @keyframes drift {
+            0%   { transform: translate(0,0)     scale(1); }
+            100% { transform: translate(60px,50px) scale(1.18); }
         }
 
+        /* ── Layout ─────────────────────────────────────────────────── */
         .container {
-            max-width: 900px;
+            max-width: 860px;
             margin: 0 auto;
             padding: 2rem;
             position: relative;
             z-index: 1;
         }
 
+        /* ── Header ─────────────────────────────────────────────────── */
         header {
             text-align: center;
-            margin-bottom: 3rem;
-            animation: fadeInDown 0.8s ease;
+            margin-bottom: 2.5rem;
+            animation: fadeInDown 0.7s ease;
         }
 
         h1 {
             font-family: 'Cinzel', serif;
-            font-size: 4rem;
+            font-size: 3.8rem;
             font-weight: 700;
-            color: var(--terra-cotta);
-            letter-spacing: 0.05em;
-            text-shadow: 2px 2px 4px var(--soft-shadow);
-            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #FF2D78 0%, #FFD700 50%, #00F5FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.4rem;
             cursor: pointer;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.2s;
         }
-
-        h1:hover {
-            opacity: 0.8;
-        }
+        h1:hover { opacity: 0.8; }
 
         .subtitle {
-            font-size: 1.3rem;
-            color: var(--ancient-stone);
+            font-size: 1.05rem;
+            color: var(--text-dim);
             font-style: italic;
-            margin-bottom: 1rem;
+            font-weight: 300;
+            margin-bottom: 1.3rem;
         }
 
+        /* ── Language Selector ──────────────────────────────────────── */
         .language-selector {
             display: flex;
-            gap: 1rem;
+            gap: 0.6rem;
             justify-content: center;
-            margin-top: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .lang-btn {
-            padding: 0.5rem 1.5rem;
+            padding: 0.38rem 1.1rem;
             background: transparent;
-            border: 2px solid var(--ancient-stone);
-            color: var(--ancient-stone);
-            font-family: 'Crimson Pro', serif;
-            font-size: 1rem;
+            border: 1.5px solid var(--glass-border);
+            color: var(--text-dim);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.84rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 4px;
+            transition: all 0.25s ease;
+            border-radius: 20px;
+        }
+        .lang-btn:hover, .lang-btn.active {
+            background: rgba(255,45,120,0.12);
+            border-color: rgba(255,45,120,0.5);
+            color: var(--text);
+            box-shadow: 0 0 14px rgba(255,45,120,0.2);
         }
 
-        .lang-btn:hover,
-        .lang-btn.active {
-            background: var(--ancient-stone);
-            color: var(--marble-white);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px var(--soft-shadow);
-        }
-
+        /* ── Score Display ──────────────────────────────────────────── */
         .score-display {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px var(--soft-shadow);
-            margin-bottom: 2rem;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             align-items: center;
-            animation: fadeIn 0.5s ease 0.2s backwards;
+            animation: fadeIn 0.5s ease 0.15s backwards;
         }
 
-        .score-item {
-            text-align: center;
-        }
+        .score-item { text-align: center; }
 
         .score-label {
-            font-size: 0.9rem;
-            color: var(--ancient-stone);
+            font-size: 0.7rem;
+            color: var(--text-dim);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.3rem;
+            letter-spacing: 0.14em;
+            font-weight: 600;
+            margin-bottom: 0.15rem;
         }
 
         .score-value {
             font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--terra-cotta);
+            font-size: 1.85rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--pink), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
+        /* ── Game Card ──────────────────────────────────────────────── */
         .game-card {
-            background: white;
-            padding: 3rem;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px var(--soft-shadow);
+            background: var(--glass);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            padding: 2.5rem;
+            border-radius: 24px;
             position: relative;
             overflow: hidden;
-            animation: fadeIn 0.5s ease 0.4s backwards;
+            animation: fadeIn 0.5s ease 0.25s backwards;
         }
 
         .game-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--terra-cotta), var(--roman-gold), var(--terra-cotta));
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--pink), var(--gold), var(--cyan), var(--purple), var(--pink));
+            background-size: 200% 100%;
+            animation: shimmerBar 4s linear infinite;
+        }
+        @keyframes shimmerBar {
+            0%   { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
         }
 
-        .difficulty-selection {
-            text-align: center;
-        }
-
-        .difficulty-title {
+        /* ── Section titles ─────────────────────────────────────────── */
+        .selection-title {
             font-family: 'Cinzel', serif;
-            font-size: 1.8rem;
-            color: var(--deep-bronze);
-            margin-bottom: 2rem;
-        }
-
-        .difficulty-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .difficulty-btn {
-            padding: 1.5rem 2.5rem;
-            font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            border: 3px solid var(--ancient-stone);
-            background: transparent;
-            color: var(--deep-bronze);
+            color: var(--text);
+            margin-bottom: 0.4rem;
+        }
+        .selection-sub {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            margin-bottom: 1.8rem;
+        }
+
+        /* ─────────────────────────────────────────────────────────────
+           STEP 1 – TOPIC SELECTION
+        ───────────────────────────────────────────────────────────── */
+        .topic-selection { text-align: center; }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .topic-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.6rem 1rem;
+            background: rgba(255,255,255,0.04);
+            border: 1.5px solid var(--glass-border);
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text);
+            gap: 0.45rem;
             position: relative;
             overflow: hidden;
         }
 
-        .difficulty-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: var(--terra-cotta);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.5s ease, height 0.5s ease;
-            z-index: -1;
+        /* Individual glow per topic */
+        .topic-card[data-topic="mythen"]:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(255,45,120,0.3);
+            border-color: rgba(255,45,120,0.55);
+            background: rgba(255,45,120,0.07);
+        }
+        .topic-card[data-topic="geschichte"]:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(255,215,0,0.28);
+            border-color: rgba(255,215,0,0.55);
+            background: rgba(255,215,0,0.06);
+        }
+        .topic-card[data-topic="vokabeln"]:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(0,245,255,0.25);
+            border-color: rgba(0,245,255,0.5);
+            background: rgba(0,245,255,0.05);
+        }
+        .topic-card[data-topic="ueberraschung"]:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(180,79,255,0.3);
+            border-color: rgba(180,79,255,0.55);
+            background: rgba(180,79,255,0.07);
         }
 
-        .difficulty-btn:hover {
+        .topic-emoji {
+            font-size: 2.3rem;
+            display: block;
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.25));
+            transition: transform 0.3s ease;
+        }
+        .topic-card:hover .topic-emoji { transform: scale(1.12) rotate(-5deg); }
+
+        .topic-name {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .topic-desc {
+            font-size: 0.76rem;
+            color: var(--text-dim);
+            font-weight: 400;
+        }
+
+        /* ─────────────────────────────────────────────────────────────
+           STEP 2 – DIFFICULTY SELECTION
+        ───────────────────────────────────────────────────────────── */
+        .difficulty-selection { text-align: center; }
+
+        .step-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            padding: 0.3rem 0.4rem;
+            border-radius: 6px;
+            transition: color 0.2s;
+        }
+        .step-back:hover { color: var(--text); }
+
+        .selected-topic-hint {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 0.3rem 1rem;
+            font-size: 0.83rem;
+            color: var(--text-dim);
+            margin-bottom: 1.4rem;
+        }
+
+        .difficulty-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .difficulty-btn {
+            padding: 1.2rem 2.2rem;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
             color: white;
-            border-color: var(--terra-cotta);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px var(--soft-shadow);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 14px;
+            min-width: 140px;
         }
 
-        .difficulty-btn:hover::before {
-            width: 300px;
-            height: 300px;
+        .difficulty-btn.easy {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            box-shadow: 0 4px 20px rgba(34,197,94,0.3);
         }
+        .difficulty-btn.medium {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 4px 20px rgba(245,158,11,0.3);
+        }
+        .difficulty-btn.hard {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 4px 20px rgba(239,68,68,0.3);
+        }
+        .difficulty-btn.easy:hover  { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(34,197,94,0.5);  filter: brightness(1.08); }
+        .difficulty-btn.medium:hover{ transform: translateY(-5px); box-shadow: 0 10px 30px rgba(245,158,11,0.5); filter: brightness(1.08); }
+        .difficulty-btn.hard:hover  { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(239,68,68,0.5);  filter: brightness(1.08); }
 
         .difficulty-btn .points-hint {
             display: block;
-            font-family: 'Crimson Pro', serif;
-            font-size: 0.85rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
             font-weight: 400;
-            margin-top: 0.3rem;
-            opacity: 0.7;
+            opacity: 0.85;
+            margin-top: 0.25rem;
         }
 
-        .question-container {
-            display: none;
-        }
-
+        /* ─────────────────────────────────────────────────────────────
+           STEP 3 – QUESTION CONTAINER
+        ───────────────────────────────────────────────────────────── */
+        .question-container { display: none; }
         .question-container.active {
             display: block;
-            animation: slideIn 0.5s ease;
+            animation: slideIn 0.4s ease;
         }
 
         .question-header {
             display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap;
             align-items: center;
-            margin-bottom: 2rem;
+            gap: 0.5rem;
+            margin-bottom: 1.8rem;
             padding-bottom: 1rem;
-            border-bottom: 2px solid var(--marble-white);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .difficulty-badge, .topic-badge {
+            padding: 0.28rem 0.85rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.74rem;
+            font-weight: 600;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+        }
+
+        .topic-badge {
+            background: rgba(0,245,255,0.1);
+            border: 1px solid rgba(0,245,255,0.3);
+            color: #5EEEFF;
         }
 
         .difficulty-badge {
-            padding: 0.5rem 1rem;
-            background: var(--terra-cotta);
-            color: white;
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+            background: rgba(255,45,120,0.15);
+            border: 1px solid rgba(255,45,120,0.4);
+            color: #FF7FB0;
         }
 
         .question-number {
-            font-size: 1rem;
-            color: var(--ancient-stone);
-            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--text-dim);
+            font-weight: 500;
+            margin-left: auto;
         }
 
-        .question-text {
-            font-size: 1.6rem;
-            line-height: 1.6;
-            color: var(--deep-bronze);
-            margin-bottom: 2rem;
-            font-weight: 600;
+        .back-btn {
+            padding: 0.28rem 0.85rem;
+            background: transparent;
+            border: 1.5px solid var(--glass-border);
+            color: var(--text-dim);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.74rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+        .back-btn:hover {
+            border-color: rgba(255,255,255,0.35);
+            color: var(--text);
+            background: var(--glass);
         }
 
+        /* ── Loading ─────────────────────────────────────────────────── */
         .loading {
             text-align: center;
-            padding: 2rem;
+            padding: 2.5rem;
+            color: var(--text-dim);
         }
 
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--marble-white);
-            border-top: 4px solid var(--terra-cotta);
+            width: 44px;
+            height: 44px;
+            border: 3px solid rgba(255,255,255,0.08);
+            border-top: 3px solid var(--pink);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.85s linear infinite;
             margin: 0 auto 1rem;
+        }
+
+        /* ── Question & Answers ─────────────────────────────────────── */
+        .question-text {
+            font-size: 1.45rem;
+            line-height: 1.65;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 1.8rem;
         }
 
         .answer-options {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
         }
 
         .answer-btn {
-            padding: 1.2rem 1.5rem;
-            background: white;
-            border: 2px solid var(--ancient-stone);
-            color: var(--deep-bronze);
-            font-family: 'Crimson Pro', serif;
-            font-size: 1.1rem;
+            padding: 1rem 1.3rem;
+            background: rgba(255,255,255,0.05);
+            border: 1.5px solid var(--glass-border);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
             text-align: left;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 8px;
+            transition: all 0.22s ease;
+            border-radius: 12px;
         }
 
         .answer-btn:hover:not(:disabled) {
-            background: var(--marble-white);
-            border-color: var(--terra-cotta);
-            transform: translateX(8px);
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.32);
+            transform: translateX(6px);
         }
 
         .answer-btn.correct {
-            background: #D4EDDA;
-            border-color: #28A745;
-            color: #155724;
+            background: rgba(34,197,94,0.16);
+            border-color: rgba(34,197,94,0.55);
+            color: #86efac;
         }
 
         .answer-btn.incorrect {
-            background: #F8D7DA;
-            border-color: #DC3545;
-            color: #721C24;
+            background: rgba(239,68,68,0.14);
+            border-color: rgba(239,68,68,0.5);
+            color: #fca5a5;
         }
 
-        .answer-btn:disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
+        .answer-btn:disabled { cursor: not-allowed; opacity: 0.72; }
 
+        /* ── Feedback ────────────────────────────────────────────────── */
         .feedback {
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background: var(--marble-white);
-            border-radius: 8px;
-            border-left: 4px solid var(--roman-gold);
+            margin-top: 1.2rem;
+            padding: 1.2rem 1.4rem;
+            background: rgba(255,215,0,0.06);
+            border: 1px solid rgba(255,215,0,0.22);
+            border-radius: 12px;
             display: none;
         }
-
         .feedback.show {
             display: block;
             animation: fadeIn 0.3s ease;
@@ -347,209 +517,115 @@
 
         .feedback-title {
             font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 0.5rem;
-            color: var(--deep-bronze);
+            color: var(--gold);
         }
 
         .feedback-text {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: var(--ancient-stone);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: var(--text-dim);
+            white-space: pre-line;
         }
 
+        /* ── Next Button ─────────────────────────────────────────────── */
         .next-btn {
-            margin-top: 1.5rem;
-            padding: 1rem 2.5rem;
-            background: var(--terra-cotta);
+            margin-top: 1.3rem;
+            padding: 0.85rem 2.2rem;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
             color: white;
             border: none;
-            font-family: 'Cinzel', serif;
-            font-size: 1.1rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            border-radius: 8px;
+            border-radius: 12px;
+            letter-spacing: 0.02em;
             display: none;
+            box-shadow: 0 4px 22px rgba(255,45,120,0.3);
         }
-
         .next-btn.show {
             display: inline-block;
             animation: fadeIn 0.3s ease;
         }
-
         .next-btn:hover {
-            background: var(--deep-bronze);
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px var(--soft-shadow);
+            transform: scale(1.04);
+            box-shadow: 0 8px 30px rgba(255,45,120,0.5);
+            filter: brightness(1.1);
         }
 
+        /* ── Error ───────────────────────────────────────────────────── */
+        .error-message {
+            background: rgba(239,68,68,0.12);
+            border: 1px solid rgba(239,68,68,0.38);
+            color: #fca5a5;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        /* ── Footer ──────────────────────────────────────────────────── */
         footer {
             text-align: center;
-            margin-top: 3rem;
-            padding: 2rem;
-            color: var(--ancient-stone);
-            font-size: 0.9rem;
-            animation: fadeIn 0.5s ease 0.6s backwards;
+            margin-top: 2.5rem;
+            padding: 1.5rem;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            opacity: 0.65;
+            animation: fadeIn 0.5s ease 0.5s backwards;
         }
 
+        /* ── Animations ──────────────────────────────────────────────── */
         @keyframes fadeIn {
             from { opacity: 0; }
-            to { opacity: 1; }
+            to   { opacity: 1; }
         }
-
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(-18px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
+            from { opacity: 0; transform: translateX(18px); }
+            to   { opacity: 1; transform: translateX(0); }
         }
-
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .game-card { padding: 2rem 1.5rem; }
+        /* ── Responsive ──────────────────────────────────────────────── */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.4rem; }
+            .game-card { padding: 1.6rem 1.2rem; }
             .difficulty-buttons { flex-direction: column; }
             .difficulty-btn { width: 100%; }
-            .score-display { flex-direction: column; gap: 1rem; }
+            .topic-grid { gap: 0.75rem; }
+            .topic-card { padding: 1.2rem 0.8rem; }
+            .topic-emoji { font-size: 1.9rem; }
         }
 
-        /* Small phones (iPhone SE2 = 375px) */
         @media (max-width: 480px) {
-            .container {
-                padding: 1rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .subtitle {
-                font-size: 1rem;
-            }
-
-            .language-selector {
-                gap: 0.5rem;
-                flex-wrap: wrap;
-            }
-
-            .lang-btn {
-                padding: 0.4rem 0.9rem;
-                font-size: 0.9rem;
-            }
-
-            .score-display {
-                padding: 1rem;
-                flex-direction: row;
-                gap: 0;
-                justify-content: space-around;
-            }
-
-            .score-label {
-                font-size: 0.75rem;
-            }
-
-            .score-value {
-                font-size: 1.5rem;
-            }
-
-            .game-card {
-                padding: 1.5rem 1rem;
-            }
-
-            .difficulty-title {
-                font-size: 1.4rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .difficulty-btn {
-                padding: 1.1rem 1.5rem;
-                font-size: 1.1rem;
-            }
-
-            /* Fix the squished question header */
-            .question-header {
-                flex-wrap: wrap;
-                gap: 0.5rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .difficulty-badge {
-                font-size: 0.8rem;
-                padding: 0.4rem 0.8rem;
-            }
-
-            .question-number {
-                font-size: 0.9rem;
-            }
-
-            .back-btn {
-                font-size: 0.75rem;
-                padding: 0.4rem 0.8rem;
-                margin-left: auto;
-            }
-
-            .question-text {
-                font-size: 1.3rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .answer-btn {
-                padding: 1rem 1rem;
-                font-size: 1rem;
-            }
-
-            .next-btn {
-                width: 100%;
-                text-align: center;
-                padding: 0.9rem 1.5rem;
-                font-size: 1rem;
-            }
-
-            header {
-                margin-bottom: 1.5rem;
-            }
-
-            footer {
-                margin-top: 1.5rem;
-                padding: 1rem;
-                font-size: 0.8rem;
-            }
-        }
-
-        .error-message {
-            background: #F8D7DA;
-            border: 1px solid #DC3545;
-            color: #721C24;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-        .back-btn {
-            padding: 0.5rem 1.2rem;
-            background: transparent;
-            border: 2px solid var(--ancient-stone);
-            color: var(--ancient-stone);
-            font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 6px;
-        }
-
-        .back-btn:hover {
-            background: var(--ancient-stone);
-            color: var(--marble-white);
-            transform: translateY(-2px);
+            .container { padding: 1rem; }
+            h1 { font-size: 2rem; }
+            .subtitle { font-size: 0.9rem; }
+            .score-label { font-size: 0.67rem; }
+            .score-value { font-size: 1.5rem; }
+            .question-text { font-size: 1.25rem; margin-bottom: 1.4rem; }
+            .question-number { margin-left: 0; width: 100%; order: 3; }
+            .game-card { padding: 1.3rem 0.9rem; }
+            .topic-name { font-size: 0.9rem; }
+            .topic-desc { font-size: 0.7rem; }
+            .topic-emoji { font-size: 1.7rem; }
+            header { margin-bottom: 1.5rem; }
         }
     </style>
 </head>
 <body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
     <div class="container">
         <header>
             <h1 onclick="resetToStart()" title="Zurück zum Start">Ludus Latinus</h1>
@@ -563,6 +639,7 @@
             </div>
         </header>
 
+        <!-- SCORE -->
         <div class="score-display">
             <div class="score-item">
                 <div class="score-label" data-de="Punkte" data-la="Puncta" data-ch="Pünkt">Punkte</div>
@@ -579,128 +656,230 @@
         </div>
 
         <div class="game-card">
-            <div class="difficulty-selection" id="difficultySelection">
-                <h2 class="difficulty-title" data-de="Wähle deinen Schwierigkeitsgrad" data-la="Elige gradum difficultatis" data-ch="Wähl din Schwirigkeitsgrad">
-                    Wähle deinen Schwierigkeitsgrad
+
+            <!-- ══ STEP 1: TOPIC ═════════════════════════════════════ -->
+            <div class="topic-selection" id="topicSelection">
+                <h2 class="selection-title"
+                    data-de="Was willst du lernen?"
+                    data-la="Quid discere vis?"
+                    data-ch="Was wetsch lerne?">
+                    Was willst du lernen?
                 </h2>
+                <p class="selection-sub"
+                   data-de="Wähle ein Themengebiet"
+                   data-la="Elige thema"
+                   data-ch="Wähl es Thema">
+                    Wähle ein Themengebiet
+                </p>
+                <div class="topic-grid">
+                    <button class="topic-card" data-topic="mythen" onclick="selectTopic('mythen')">
+                        <span class="topic-emoji">🏛️</span>
+                        <span class="topic-name"
+                              data-de="Mythen"
+                              data-la="Mythi"
+                              data-ch="Mythe">Mythen</span>
+                        <span class="topic-desc"
+                              data-de="Götter, Helden & Sagen"
+                              data-la="Dei, Heroes, Fabulae"
+                              data-ch="Götter, Helde & Sage">Götter, Helden & Sagen</span>
+                    </button>
+
+                    <button class="topic-card" data-topic="geschichte" onclick="selectTopic('geschichte')">
+                        <span class="topic-emoji">⚔️</span>
+                        <span class="topic-name"
+                              data-de="Geschichte"
+                              data-la="Historia"
+                              data-ch="Geschichte">Geschichte</span>
+                        <span class="topic-desc"
+                              data-de="Rom, Politik & Kultur"
+                              data-la="Roma, Politica, Cultura"
+                              data-ch="Rom, Politik & Kultur">Rom, Politik & Kultur</span>
+                    </button>
+
+                    <button class="topic-card" data-topic="vokabeln" onclick="selectTopic('vokabeln')">
+                        <span class="topic-emoji">📖</span>
+                        <span class="topic-name"
+                              data-de="Vokabeln & Grammatik"
+                              data-la="Vocabula & Grammatica"
+                              data-ch="Vokable & Grammatik">Vokabeln & Grammatik</span>
+                        <span class="topic-desc"
+                              data-de="Sprache & Formen"
+                              data-la="Lingua et Formae"
+                              data-ch="Sprooch & Forme">Sprache & Formen</span>
+                    </button>
+
+                    <button class="topic-card" data-topic="ueberraschung" onclick="selectTopic('ueberraschung')">
+                        <span class="topic-emoji">🎲</span>
+                        <span class="topic-name"
+                              data-de="Überrasche mich!"
+                              data-la="Fortuito!"
+                              data-ch="Überrasch mich!">Überrasche mich!</span>
+                        <span class="topic-desc"
+                              data-de="Alles gemischt"
+                              data-la="Omnia mixta"
+                              data-ch="Alles gmischt">Alles gemischt</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ══ STEP 2: DIFFICULTY ════════════════════════════════ -->
+            <div class="difficulty-selection" id="difficultySelection" style="display: none;">
+                <div style="text-align: left;">
+                    <button class="step-back" onclick="backToTopics()">← Zurück</button>
+                </div>
+                <div id="selectedTopicHint" class="selected-topic-hint"></div>
+                <h2 class="selection-title"
+                    data-de="Wähle deinen Level"
+                    data-la="Elige gradum"
+                    data-ch="Wähl din Level">
+                    Wähle deinen Level
+                </h2>
+                <p class="selection-sub"
+                   data-de="Schwierigkeitsgrad festlegen"
+                   data-la="Gradum difficultatis elige"
+                   data-ch="Schwirigkeitsgräd festlege">
+                    Schwierigkeitsgrad festlegen
+                </p>
                 <div class="difficulty-buttons">
-                    <button class="difficulty-btn" onclick="startGame('easy')">
+                    <button class="difficulty-btn easy" onclick="startGame('easy')">
                         <span data-de="Einfach" data-la="Facilis" data-ch="Eifach">Einfach</span>
                         <span class="points-hint" data-de="10 Punkte" data-la="X puncta" data-ch="10 Pünkt">10 Punkte</span>
                     </button>
-                    <button class="difficulty-btn" onclick="startGame('medium')">
+                    <button class="difficulty-btn medium" onclick="startGame('medium')">
                         <span data-de="Mittel" data-la="Medius" data-ch="Mittel">Mittel</span>
                         <span class="points-hint" data-de="25 Punkte" data-la="XXV puncta" data-ch="25 Pünkt">25 Punkte</span>
                     </button>
-                    <button class="difficulty-btn" onclick="startGame('hard')">
+                    <button class="difficulty-btn hard" onclick="startGame('hard')">
                         <span data-de="Schwer" data-la="Difficilis" data-ch="Schwär">Schwer</span>
                         <span class="points-hint" data-de="50 Punkte" data-la="L puncta" data-ch="50 Pünkt">50 Punkte</span>
                     </button>
                 </div>
             </div>
 
+            <!-- ══ STEP 3: QUESTION ══════════════════════════════════ -->
             <div class="question-container" id="questionContainer">
                 <div class="question-header">
+                    <span class="topic-badge"      id="topicBadge"></span>
                     <span class="difficulty-badge" id="difficultyBadge"></span>
-                    <span class="question-number" id="questionNumber"></span>
+                    <span class="question-number"  id="questionNumber"></span>
                     <button class="back-btn" onclick="changeDifficulty()"
-                            data-de="Level anpassen" data-la="Gradum mutare" data-ch="Level apasse">
-                        Level anpassen
+                            data-de="Level ändern" data-la="Gradum mutare" data-ch="Level änder">
+                        Level ändern
                     </button>
                 </div>
 
                 <div class="loading" id="loading">
                     <div class="spinner"></div>
-                    <p data-de="Frage wird geladen..." data-la="Quaestio paratur..." data-ch="Frag wird glade...">Frage wird geladen...</p>
+                    <p data-de="Frage wird geladen…" data-la="Quaestio paratur…" data-ch="Frag wird glade…">Frage wird geladen…</p>
                 </div>
 
                 <div id="questionContent" style="display: none;">
-                    <div class="question-text" id="questionText"></div>
-                    <div class="answer-options" id="answerOptions"></div>
-                    <div class="feedback" id="feedback">
+                    <div class="question-text"  id="questionText"></div>
+                    <div class="answer-options"  id="answerOptions"></div>
+                    <div class="feedback"        id="feedback">
                         <div class="feedback-title" id="feedbackTitle"></div>
-                        <div class="feedback-text" id="feedbackText"></div>
+                        <div class="feedback-text"  id="feedbackText"></div>
                     </div>
-                    <button class="next-btn" id="nextBtn" onclick="nextQuestion()" data-de="Nächste Frage" data-la="Proxima quaestio" data-ch="Nögschti Frag">
-                        Nächste Frage
+                    <button class="next-btn" id="nextBtn" onclick="nextQuestion()"
+                            data-de="Nächste Frage →" data-la="Proxima quaestio →" data-ch="Nögschti Frag →">
+                        Nächste Frage →
                     </button>
                 </div>
             </div>
-        </div>
+
+        </div><!-- .game-card -->
 
         <footer>
-            <p>© 2025 - Condita a Mirjam Döpfert, Lehrperson für Latein an der KSK</p>
-            <p style="margin-top: 0.5rem; font-size: 0.8rem;">
-                <span data-de="Powered by Claude AI & OpenAI - Keine Daten werden gespeichert"
-                      data-la="Potentia Claude AI et OpenAI - Nulla data servantur"
-                      data-ch="Powered by Claude AI & OpenAI - Kei Date werded gspeicheret">
-                    Powered by Claude AI & OpenAI - Keine Daten werden gespeichert
+            <p>© 2025 – Condita a Mirjam Döpfert, Lehrperson für Latein an der KSK</p>
+            <p style="margin-top: 0.4rem;">
+                <span data-de="Powered by Claude AI & OpenAI – Keine Daten werden gespeichert"
+                      data-la="Potentia Claude AI et OpenAI – Nulla data servantur"
+                      data-ch="Powered by Claude AI & OpenAI – Kei Date werded gspeicheret">
+                    Powered by Claude AI & OpenAI – Keine Daten werden gespeichert
                 </span>
             </p>
         </footer>
     </div>
 
     <script>
-        // Game State
-        let currentLanguage = 'de';
+        // ── Game State ───────────────────────────────────────────────────
+        let currentLanguage   = 'de';
         let currentDifficulty = null;
-        let currentQuestion = null;
-        let score = 0;
-        let correctAnswers = 0;
-        let totalQuestions = 0;
+        let currentTopic      = null;
+        let currentQuestion   = null;
+        let score             = 0;
+        let correctAnswers    = 0;
+        let totalQuestions    = 0;
         let previousQuestions = [];
 
-        // Point values per difficulty
-        const pointValues = {
-            easy: 10,
-            medium: 25,
-            hard: 50
-        };
+        const pointValues = { easy: 10, medium: 25, hard: 50 };
 
-        // Translations
-        const translations = {
+        // Human-readable topic labels per language
+        const topicLabels = {
             de: {
-                difficultyEasy: 'Einfach',
-                difficultyMedium: 'Mittel',
-                difficultyHard: 'Schwer',
-                questionPrefix: 'Frage',
-                correct: 'Richtig! 🎉',
-                incorrect: 'Leider falsch! 😔',
-                correctAnswer: 'Die richtige Antwort war:',
-                loading: 'Frage wird geladen...',
-                error: 'Fehler beim Laden der Frage. Bitte versuche es erneut.'
+                mythen:        '🏛️ Mythen',
+                geschichte:    '⚔️ Geschichte',
+                vokabeln:      '📖 Vokabeln & Grammatik',
+                ueberraschung: '🎲 Überraschung'
             },
             la: {
-                difficultyEasy: 'Facilis',
-                difficultyMedium: 'Medius',
-                difficultyHard: 'Difficilis',
-                questionPrefix: 'Quaestio',
-                correct: 'Recte! 🎉',
-                incorrect: 'Non recte! 😔',
-                correctAnswer: 'Responsio recta erat:',
-                loading: 'Quaestio paratur...',
-                error: 'Error in quaestione paranda. Iterum tempta.'
+                mythen:        '🏛️ Mythi',
+                geschichte:    '⚔️ Historia',
+                vokabeln:      '📖 Vocabula & Grammatica',
+                ueberraschung: '🎲 Fortuito'
             },
             ch: {
-                difficultyEasy: 'Eifach',
-                difficultyMedium: 'Mittel',
-                difficultyHard: 'Schwär',
-                questionPrefix: 'Frag',
-                correct: 'Richtig! 🎉',
-                incorrect: 'Läider falsch! 😔',
-                correctAnswer: 'Di richtigi Antwort isch gsi:',
-                loading: 'Frag wird glade...',
-                error: 'Fähler bim Lade. Bitte probiers nomol.'
+                mythen:        '🏛️ Mythe',
+                geschichte:    '⚔️ Geschichte',
+                vokabeln:      '📖 Vokable & Grammatik',
+                ueberraschung: '🎲 Überraschig'
             }
         };
 
-        // Language Switching
+        const translations = {
+            de: {
+                difficultyEasy:   'Einfach',
+                difficultyMedium: 'Mittel',
+                difficultyHard:   'Schwer',
+                questionPrefix:   'Frage',
+                correct:          'Richtig! 🎉',
+                incorrect:        'Leider falsch! 😔',
+                correctAnswer:    'Die richtige Antwort war:',
+                loading:          'Frage wird geladen…',
+                error:            'Fehler beim Laden der Frage. Bitte versuche es erneut.'
+            },
+            la: {
+                difficultyEasy:   'Facilis',
+                difficultyMedium: 'Medius',
+                difficultyHard:   'Difficilis',
+                questionPrefix:   'Quaestio',
+                correct:          'Recte! 🎉',
+                incorrect:        'Non recte! 😔',
+                correctAnswer:    'Responsio recta erat:',
+                loading:          'Quaestio paratur…',
+                error:            'Error in quaestione paranda. Iterum tempta.'
+            },
+            ch: {
+                difficultyEasy:   'Eifach',
+                difficultyMedium: 'Mittel',
+                difficultyHard:   'Schwär',
+                questionPrefix:   'Frag',
+                correct:          'Richtig! 🎉',
+                incorrect:        'Läider falsch! 😔',
+                correctAnswer:    'Di richtigi Antwort isch gsi:',
+                loading:          'Frag wird glade…',
+                error:            'Fähler bim Lade. Bitte probiers nomol.'
+            }
+        };
+
+        // ── Language Switching ───────────────────────────────────────────
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 currentLanguage = btn.dataset.lang;
                 updateLanguage();
+                if (currentTopic) updateTopicHint();
             });
         });
 
@@ -712,19 +891,40 @@
             });
         }
 
-        // Start Game
+        // ── Step 1: Topic ────────────────────────────────────────────────
+        function selectTopic(topic) {
+            currentTopic = topic;
+            document.getElementById('topicSelection').style.display = 'none';
+            document.getElementById('difficultySelection').style.display = 'block';
+            updateTopicHint();
+        }
+
+        function updateTopicHint() {
+            const hint = document.getElementById('selectedTopicHint');
+            hint.textContent = topicLabels[currentLanguage][currentTopic] || '';
+        }
+
+        function backToTopics() {
+            currentTopic = null;
+            document.getElementById('difficultySelection').style.display = 'none';
+            document.getElementById('topicSelection').style.display = 'block';
+        }
+
+        // ── Step 2: Start Game ───────────────────────────────────────────
         function startGame(difficulty) {
             currentDifficulty = difficulty;
             document.getElementById('difficultySelection').style.display = 'none';
             document.getElementById('questionContainer').classList.add('active');
 
-            const badge = document.getElementById('difficultyBadge');
-            badge.textContent = translations[currentLanguage][`difficulty${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}`];
+            // Set badges
+            const diffKey = `difficulty${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}`;
+            document.getElementById('difficultyBadge').textContent = translations[currentLanguage][diffKey];
+            document.getElementById('topicBadge').textContent = topicLabels[currentLanguage][currentTopic] || '';
 
             loadQuestion();
         }
 
-        // Load Question from API
+        // ── Load Question from API ───────────────────────────────────────
         async function loadQuestion() {
             document.getElementById('loading').style.display = 'block';
             document.getElementById('questionContent').style.display = 'none';
@@ -734,11 +934,10 @@
             try {
                 const response = await fetch('/api/question', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        difficulty: currentDifficulty,
+                        difficulty:        currentDifficulty,
+                        topic:             currentTopic,
                         previousQuestions: previousQuestions
                     })
                 });
@@ -758,18 +957,18 @@
                 document.getElementById('loading').innerHTML = `
                     <div class="error-message">
                         ${translations[currentLanguage].error}<br>
-                        <small style="margin-top: 0.5rem; display: block; opacity: 0.7;">
-                            Fehlerdetails: ${error.message}
+                        <small style="margin-top: 0.5rem; display: block; opacity: 0.6;">
+                            Details: ${error.message}
                         </small>
                     </div>
-                    <button class="next-btn show" onclick="loadQuestion()" style="display: inline-block; margin-top: 1rem;">
+                    <button class="next-btn show" onclick="loadQuestion()" style="display:inline-block; margin-top:1rem;">
                         Erneut versuchen
                     </button>
                 `;
             }
         }
 
-        // Display Question
+        // ── Display Question ─────────────────────────────────────────────
         function displayQuestion() {
             totalQuestions++;
             document.getElementById('loading').style.display = 'none';
@@ -793,13 +992,12 @@
             updateScore();
         }
 
-        // Check Answer
+        // ── Check Answer ─────────────────────────────────────────────────
         function checkAnswer(selectedIndex) {
             const buttons = document.querySelectorAll('.answer-btn');
             buttons.forEach(btn => btn.disabled = true);
 
             const isCorrect = selectedIndex === currentQuestion.correctIndex;
-
             buttons[selectedIndex].classList.add(isCorrect ? 'correct' : 'incorrect');
             if (!isCorrect) {
                 buttons[currentQuestion.correctIndex].classList.add('correct');
@@ -814,77 +1012,65 @@
             showFeedback(isCorrect);
         }
 
-        // Show Feedback
+        // ── Show Feedback ────────────────────────────────────────────────
         function showFeedback(isCorrect) {
             const feedback = document.getElementById('feedback');
-            const feedbackTitle = document.getElementById('feedbackTitle');
-            const feedbackText = document.getElementById('feedbackText');
-
-            feedbackTitle.textContent = isCorrect ?
-                translations[currentLanguage].correct :
-                translations[currentLanguage].incorrect;
+            document.getElementById('feedbackTitle').textContent = isCorrect
+                ? translations[currentLanguage].correct
+                : translations[currentLanguage].incorrect;
 
             let explanation = currentQuestion.explanation;
             if (!isCorrect) {
                 explanation = `${translations[currentLanguage].correctAnswer} ${currentQuestion.options[currentQuestion.correctIndex]}\n\n${explanation}`;
             }
 
-            feedbackText.textContent = explanation;
+            document.getElementById('feedbackText').textContent = explanation;
             feedback.classList.add('show');
             document.getElementById('nextBtn').classList.add('show');
         }
 
-        // Next Question
-        function nextQuestion() {
-            loadQuestion();
-        }
+        function nextQuestion() { loadQuestion(); }
 
-        // Update Score
         function updateScore() {
-            document.getElementById('score').textContent = score;
+            document.getElementById('score').textContent   = score;
             document.getElementById('correct').textContent = correctAnswers;
-            document.getElementById('total').textContent = totalQuestions;
+            document.getElementById('total').textContent   = totalQuestions;
         }
 
-        // Change Difficulty (keeps score)
+        // ── Change Difficulty (keep topic + score) ───────────────────────
         function changeDifficulty() {
             currentDifficulty = null;
-            currentQuestion = null;
+            currentQuestion   = null;
 
             document.getElementById('questionContainer').classList.remove('active');
-            document.getElementById('difficultySelection').style.display = '';
+            document.getElementById('difficultySelection').style.display = 'block';
             document.getElementById('loading').style.display = 'none';
             document.getElementById('questionContent').style.display = 'none';
-
-            // Reset loading content in case error was shown
-            document.getElementById('loading').innerHTML = `
-                <div class="spinner"></div>
-                <p data-de="Frage wird geladen..." data-la="Quaestio paratur..." data-ch="Frag wird glade...">
-                    ${currentLanguage === 'la' ? 'Quaestio paratur...' : currentLanguage === 'ch' ? 'Frag wird glade...' : 'Frage wird geladen...'}
-                </p>
-            `;
+            updateTopicHint();
+            resetLoadingHtml();
         }
 
-        // Full Reset (header click)
+        // ── Full Reset (header click) ────────────────────────────────────
         function resetToStart() {
-            score = 0;
-            correctAnswers = 0;
-            totalQuestions = 0;
+            score = 0; correctAnswers = 0; totalQuestions = 0;
             previousQuestions = [];
-            currentDifficulty = null;
-            currentQuestion = null;
-
+            currentDifficulty = null; currentTopic = null; currentQuestion = null;
             updateScore();
 
             document.getElementById('questionContainer').classList.remove('active');
-            document.getElementById('difficultySelection').style.display = '';
+            document.getElementById('difficultySelection').style.display = 'none';
+            document.getElementById('topicSelection').style.display = 'block';
             document.getElementById('loading').style.display = 'none';
             document.getElementById('questionContent').style.display = 'none';
+            resetLoadingHtml();
+        }
 
+        function resetLoadingHtml() {
+            const lang = currentLanguage;
             document.getElementById('loading').innerHTML = `
                 <div class="spinner"></div>
-                <p data-de="Frage wird geladen..." data-la="Quaestio paratur..." data-ch="Frag wird glade...">
-                    ${currentLanguage === 'la' ? 'Quaestio paratur...' : currentLanguage === 'ch' ? 'Frag wird glade...' : 'Frage wird geladen...'}
+                <p data-de="Frage wird geladen…" data-la="Quaestio paratur…" data-ch="Frag wird glade…">
+                    ${lang === 'la' ? 'Quaestio paratur…' : lang === 'ch' ? 'Frag wird glade…' : 'Frage wird geladen…'}
                 </p>
             `;
         }
