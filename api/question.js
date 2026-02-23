@@ -18,18 +18,64 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { difficulty, previousQuestions } = req.body;
+    const { difficulty, topic, previousQuestions } = req.body;
 
     if (!['easy', 'medium', 'hard'].includes(difficulty)) {
         return res.status(400).json({ error: 'Invalid difficulty level' });
     }
 
+    // ── Themen-Keyword-Filter ─────────────────────────────────────────────────
+    // Für jedes Thema: Welche Schlüsselwörter kennzeichnen passende Kategorien/Themen?
+    const topicKeywords = {
+        mythen: [
+            'mytholog', 'Mythen', 'Mythi', 'Götter', 'Gott', 'Göttin', 'Held', 'Sage',
+            'Metamorphosen', 'Trojan', 'Aeneas', 'Odysseus', 'Ovid', 'Phädrus', 'Fabeln',
+            'Fabel', 'Götterwelt', 'Heldensagen', 'äsopisch', 'Dichtung und Mythologie'
+        ],
+        geschichte: [
+            'Kulturwissen', 'Geschichte', 'Republik', 'Militär', 'Provinzen', 'Politik',
+            'Kaiser', 'Rhetorik', 'Alltag', 'Recht', 'Senat', 'Philosophie', 'Philosophi',
+            'Literatur', 'Baukunst', 'Frauen', 'Sklav', 'Handel', 'Reisen', 'Römer',
+            'sozial', 'Magistrat', 'Prinzipat', 'Cicero', 'Caesar', 'Augustus', 'Plinius',
+            'Martial', 'Gesellschaft', 'Expansion', 'Gattung', 'Urbanistik', 'Rezeption',
+            'Überzeugungskunst', 'Stoa', 'Epikur', 'Sentenzen', 'Sprichwörter', 'Gallisch',
+            'Bürgerkrieg', 'Pompeius', 'Machtlosigkeit', 'Seneca', 'Lukrez'
+        ],
+        vokabeln: [
+            'Vokabel', 'Konjugation', 'Deklination', 'Satzbau', 'Partizip', 'Pronomen',
+            'Adjektiv', 'nd-Form', 'Stilmittel', 'Metrik', 'Konjunktiv', 'Kasusbestimmung',
+            'übersetzen', 'Stammform', 'Infinitiv', 'Kasus', 'Syntax', 'AcI', 'Imperativ',
+            'Perfekt', 'Plusquamperfekt', 'Futur', 'Passiv', 'Imperfekt', 'Präsens',
+            'Deponent', 'Gerundium', 'Gerundivum', 'Komparativ', 'Superlativ', 'Irrealis',
+            'oratio obliqua', 'Consecutio', 'Hexameter', 'Chiasmus', 'Hyperbaton',
+            'Anapher', 'Klimax', 'ferre', 'velle', 'nolle', 'fieri', 'esse',
+            'Übersetzung', 'lateinischen Satz', 'Originalsatz', 'Grammatik'
+        ]
+        // 'ueberraschung' wird nicht gefiltert → alle Kategorien/Themen verfügbar
+    };
+
+    /**
+     * Filtert ein String-Array nach den Keywords des gewählten Themas.
+     * Falls kein Treffer → Fallback auf das komplette Array (damit nie eine leere Liste entsteht).
+     */
+    function filterByTopic(items, activeTopic) {
+        if (!activeTopic || activeTopic === 'ueberraschung') return items;
+        const keywords = topicKeywords[activeTopic] || [];
+        const filtered = items.filter(item =>
+            keywords.some(kw => item.includes(kw))
+        );
+        return filtered.length > 0 ? filtered : items;  // Fallback: alles
+    }
+
+    // Thema validieren (undefined/null → ueberraschung)
+    const activeTopic = (topic && ['mythen', 'geschichte', 'vokabeln', 'ueberraschung'].includes(topic))
+        ? topic
+        : 'ueberraschung';
+
     // ── Kategorien & Themen nach Schwierigkeitsstufe (prima.kompakt) ──────────
 
     const difficultyConfig = {
         // LEICHT: Lektionen 1–10 von prima.kompakt (~1.5 Jahre, Anfänger)
-        // Grundlegende Grammatik: a-/o-/kons. Deklination, Präsens, Imperfekt,
-        // Imperativ, esse, AcI-Einführung, Nom./Akk./Gen./Dat./Abl. Grundlagen
         easy: {
             label: 'leicht – prima.kompakt Lektionen 1–10 (1. bis 1.5 Lernjahre)',
             description: `Niveau: prima.kompakt Lektionen 1–10 (Anfänger, ca. 1.–1.5. Lernjahr).
@@ -72,9 +118,6 @@ Kulturwissen: Römisches Alltagsleben, Familie, Forum Romanum, Circus Maximus, G
         },
 
         // MITTEL: Lektionen 11–22 von prima.kompakt (~1.5 Jahre, Fortgeschrittene)
-        // Erweiterte Grammatik: Perfekt, Plusquamperfekt, Futur, Passiv,
-        // Partizipien (PPA, PPP), Abl. Abs., Relativsätze, Konjunktiv,
-        // nd-Formen, Komparativ/Superlativ, Demonstrativpronomen
         medium: {
             label: 'mittel – prima.kompakt Lektionen 11–22 (ca. 1.5.–3. Lernjahr)',
             description: `Niveau: prima.kompakt Lektionen 11–22 (Fortgeschrittene, ca. 1.5.–3. Lernjahr).
@@ -125,9 +168,6 @@ Kulturwissen: Römische Republik, Senat, Militär, Provinzen, Mythologie vertief
         },
 
         // SCHWER: Lektüre-Phase & Latinum-Vorbereitung (~2 Jahre)
-        // Originaltexte: Caesar, Cicero, Ovid, Plinius, Martial, Phädrus
-        // (prima.kompakt "Latein original"-Einheiten)
-        // Komplexe Syntax, Stilistik, Metrik, vertiefte Kulturkenntnisse
         hard: {
             label: 'schwer – Lektüre & Latinum-Vorbereitung (ca. 3.–5. Lernjahr)',
             description: `Niveau: Lektüre-Phase und Latinum-Vorbereitung (ca. 3.–5. Lernjahr, Maturaniveau).
@@ -200,9 +240,23 @@ Kulturwissen (vertieft):
     };
 
     const config = difficultyConfig[difficulty];
-    const randomCategory = config.categories[Math.floor(Math.random() * config.categories.length)];
-    const randomTheme = config.themes[Math.floor(Math.random() * config.themes.length)];
-    const randomSeed = Math.floor(Math.random() * 100000);
+
+    // Kategorien und Themen nach gewähltem Thema filtern
+    const filteredCategories = filterByTopic(config.categories, activeTopic);
+    const filteredThemes     = filterByTopic(config.themes,     activeTopic);
+
+    // Zufällig aus den gefilterten Listen wählen
+    const randomCategory = filteredCategories[Math.floor(Math.random() * filteredCategories.length)];
+    const randomTheme    = filteredThemes[Math.floor(Math.random() * filteredThemes.length)];
+    const randomSeed     = Math.floor(Math.random() * 100000);
+
+    // Themenbezeichnung für den Prompt (menschlich lesbar)
+    const topicLabel = {
+        mythen:        'Mythen (Götter, Helden, Sagen)',
+        geschichte:    'Geschichte & Kultur (Rom, Politik, Alltag)',
+        vokabeln:      'Vokabeln & Grammatik',
+        ueberraschung: 'gemischt (alle Themen)'
+    }[activeTopic] || 'gemischt';
 
     // ── Bereits gestellte Fragen ausschliessen ──────────────────────────────
     let exclusionNote = '';
@@ -217,12 +271,13 @@ SCHWIERIGKEITSSTUFE: ${config.label}
 
 ${config.description}
 
+ÜBERGEORDNETES THEMA dieser Frage: ${topicLabel}
 KATEGORIE für diese Frage: ${randomCategory}
 THEMENBEREICH: ${randomTheme}
 [Zufallsseed: ${randomSeed}]
 [Zeitstempel: ${new Date().toISOString()}]
 
-WICHTIG: Erstelle eine NEUE, EINZIGARTIGE Frage passend zur obigen Kategorie und zum Themenbereich!${exclusionNote}
+WICHTIG: Erstelle eine NEUE, EINZIGARTIGE Frage passend zum übergeordneten Thema "${topicLabel}", zur Kategorie und zum Themenbereich!${exclusionNote}
 
 QUALITÄTSKONTROLLE – KRITISCH:
 ✔ Verwende NUR Vokabeln und Grammatik, die zum angegebenen Niveau passen
@@ -279,7 +334,7 @@ NIVEAUSTUFEN (orientiert an prima.kompakt):
 - SCHWER (Lektüre/Latinum): Originaltexte (Caesar, Cicero, Ovid etc.), Stilmittel, Metrik, komplexe Syntax, Irrealis, oratio obliqua
 
 DEINE AUFGABE:
-Erstelle akademisch einwandfreie Quiz-Fragen passend zum Niveau.
+Erstelle akademisch einwandfreie Quiz-Fragen passend zum Niveau und zum angegebenen Thema.
 Antworte IMMER nur mit validem JSON, ohne Markdown-Formatierung oder zusätzlichen Text.
 
 WICHTIG:
@@ -311,6 +366,7 @@ WICHTIG:
 
         console.log('✅ Question generated:', {
             difficulty,
+            topic: activeTopic,
             level: config.label,
             category: randomCategory,
             theme: randomTheme,
