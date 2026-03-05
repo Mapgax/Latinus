@@ -25,7 +25,6 @@ export default async function handler(req, res) {
     }
 
     // ── Themen-Keyword-Filter ─────────────────────────────────────────────────
-    // Für jedes Thema: Welche Schlüsselwörter kennzeichnen passende Kategorien/Themen?
     const topicKeywords = {
         mythen: [
             'mytholog', 'Mythen', 'Mythi', 'Götter', 'Gott', 'Göttin', 'Held', 'Sage',
@@ -34,103 +33,98 @@ export default async function handler(req, res) {
         ],
         geschichte: [
             'Kulturwissen', 'Geschichte', 'Republik', 'Militär', 'Provinzen', 'Politik',
-            'Kaiser', 'Rhetorik', 'Alltag', 'Recht', 'Senat', 'Philosophie', 'Philosophi',
+            'Kaiser', 'Rhetorik', 'Alltag', 'Recht', 'Senat', 'Philosophie',
             'Literatur', 'Baukunst', 'Frauen', 'Sklav', 'Handel', 'Reisen', 'Römer',
             'sozial', 'Magistrat', 'Prinzipat', 'Cicero', 'Caesar', 'Augustus', 'Plinius',
-            'Martial', 'Gesellschaft', 'Expansion', 'Gattung', 'Urbanistik', 'Rezeption',
-            'Überzeugungskunst', 'Stoa', 'Epikur', 'Sentenzen', 'Sprichwörter', 'Gallisch',
-            'Bürgerkrieg', 'Pompeius', 'Machtlosigkeit', 'Seneca', 'Lukrez'
+            'Martial', 'Gesellschaft', 'Expansion', 'Urbanistik', 'Rezeption',
+            'Stoa', 'Epikur', 'Sentenzen', 'Sprichwörter', 'Bürgerkrieg', 'Seneca'
         ],
-        vokabeln: [
-            'Vokabel', 'Konjugation', 'Deklination', 'Satzbau', 'Partizip', 'Pronomen',
-            'Adjektiv', 'nd-Form', 'Stilmittel', 'Metrik', 'Konjunktiv', 'Kasusbestimmung',
-            'übersetzen', 'Stammform', 'Infinitiv', 'Kasus', 'Syntax', 'AcI', 'Imperativ',
-            'Perfekt', 'Plusquamperfekt', 'Futur', 'Passiv', 'Imperfekt', 'Präsens',
-            'Deponent', 'Gerundium', 'Gerundivum', 'Komparativ', 'Superlativ', 'Irrealis',
-            'oratio obliqua', 'Consecutio', 'Hexameter', 'Chiasmus', 'Hyperbaton',
-            'Anapher', 'Klimax', 'ferre', 'velle', 'nolle', 'fieri', 'esse',
-            'Übersetzung', 'lateinischen Satz', 'Originalsatz', 'Grammatik'
+        alltagslatein: [
+            'Lingua Viva', 'via', 'per', 'ad hoc', 'status quo', 'ultra', 'extra',
+            'etc.', 'i.e.', 'e.g.', 'et al.', 'a.m.', 'p.m.',
+            'veni vidi vici', 'carpe diem', 'cogito ergo sum', 'alea iacta', 'Rubikon',
+            'alma mater', 'curriculum vitae', 'vox populi', 'mea culpa', 'sine qua non',
+            'tabula rasa', 'memento mori', 'tempus fugit', 'in flagranti', 'alibi',
+            'anno Domini', 'ad absurdum', 'prima vista',
+            'Audi', 'Volvo', 'Marke', 'Firmenname', 'Produktname', 'audere', 'volvere',
+            'Aquarium', 'Virus', 'Vakuum', 'Medium', 'Index', 'Agenda', 'Datum', 'Album',
+            'Spektrum', 'Stadium', 'Radius', 'Fokus', 'Homo sapiens', 'Genus', 'Species',
+            'Anatomie', 'Medizin', 'Biologie', 'Botanik', 'Zoologie', 'Taxonomie',
+            'Redewendung', 'Sprichwort', 'Herkunft', 'Ursprung', 'Etymologie',
+            'Rubikon', 'Achillesferse', 'Pyrrhussieg', 'gordisch',
+            'Kirchenlatein', 'Vatikan', 'Liturgie', 'Neo-Latein', 'Nuntii Latini',
+            'juristisch', 'Rechtslatein', 'Pharmazie', 'Apotheke',
+            'Präfix', 'Suffix', 'Lehnwort', 'Fremdwort', 'Romanisch',
+            'Französisch', 'Spanisch', 'Italienisch', 'Wortwurzel', 'lateinische Wurzel'
         ]
         // 'ueberraschung' wird nicht gefiltert → alle Kategorien/Themen verfügbar
     };
 
     /**
      * Filtert ein String-Array nach den Keywords des gewählten Themas.
-     * Falls kein Treffer → Fallback auf das komplette Array (damit nie eine leere Liste entsteht).
+     * Falls kein Treffer → Fallback auf das komplette Array.
      */
     function filterByTopic(items, activeTopic) {
         if (!activeTopic || activeTopic === 'ueberraschung') return items;
         const keywords = topicKeywords[activeTopic] || [];
         const filtered = items.filter(item =>
-            keywords.some(kw => item.includes(kw))
+            keywords.some(kw => item.toLowerCase().includes(kw.toLowerCase()))
         );
-        return filtered.length > 0 ? filtered : items;  // Fallback: alles
+        return filtered.length > 0 ? filtered : items;
     }
 
-    // Thema validieren (undefined/null → ueberraschung)
-    const activeTopic = (topic && ['mythen', 'geschichte', 'vokabeln', 'ueberraschung'].includes(topic))
+    // Thema validieren
+    const activeTopic = (topic && ['mythen', 'geschichte', 'alltagslatein', 'ueberraschung'].includes(topic))
         ? topic
         : 'ueberraschung';
 
-    // ── Kategorien & Themen nach Schwierigkeitsstufe (prima.kompakt) ──────────
+    // ── Kategorien & Themen nach Schwierigkeitsstufe ──────────────────────────
 
     const difficultyConfig = {
-        // LEICHT: Lektionen 1–10 von prima.kompakt (~1.5 Jahre, Anfänger)
         easy: {
             label: 'leicht – prima.kompakt Lektionen 1–10 (1. bis 1.5 Lernjahre)',
             description: `Niveau: prima.kompakt Lektionen 1–10 (Anfänger, ca. 1.–1.5. Lernjahr).
-Grammatik auf diesem Niveau:
-- Substantive: a-Deklination (z.B. amica, -ae), o-Deklination (z.B. amicus, -i; templum, -i), Beginn konsonantische Deklination (z.B. rex, regis)
-- Kasus: Nominativ, Akkusativ, Genitiv, Dativ, Ablativ (Grundformen)
-- Verben: Konjugationen im Präsens Aktiv (a-, e-, i-, kons. Konjugation), Imperativ, Infinitiv Präsens
-- Imperfekt Aktiv, Verb "esse" (Präsens + Imperfekt)
-- Satzlehre: einfache Hauptsätze, erste Gliedsätze, Einführung AcI
-- Pronomen: Personalpronomen, einfache Fragepronomen (quis, quid)
-Vokabeln: Grundwortschatz ca. 200–300 Wörter (Familie, Alltag in Rom, Schule, Forum, Circus, einfache Tiere, Zahlen)
-Kulturwissen: Römisches Alltagsleben, Familie, Forum Romanum, Circus Maximus, Götter-Grundlagen`,
+Grammatik: a-/o-/kons. Deklination, Präsens/Imperfekt Aktiv, esse, einfacher AcI, Imperativ.
+Vokabeln: Grundwortschatz ca. 200–300 Wörter (Familie, Alltag, Schule, Forum, Circus, Götter).`,
             categories: [
                 'Vokabelübersetzung Latein→Deutsch (Grundwortschatz Lektionen 1–10)',
                 'Vokabelübersetzung Deutsch→Latein (Grundwortschatz Lektionen 1–10)',
                 'Konjugation: Präsens Aktiv (a-, e-, i-, kons. Konjugation)',
                 'Konjugation: Imperfekt Aktiv',
                 'Konjugation: Formen von "esse" (Präsens/Imperfekt)',
-                'Deklination: a-Deklination (amica, -ae)',
-                'Deklination: o-Deklination (amicus, -i / templum, -i)',
-                'Deklination: Beginn konsonantische Deklination (rex, regis)',
+                'Deklination: a-Deklination und o-Deklination',
                 'Kasusbestimmung: Nominativ, Akkusativ, Genitiv, Dativ, Ablativ erkennen',
                 'Satzbau: Einfacher AcI erkennen und übersetzen',
                 'Kulturwissen: Römischer Alltag (Familie, Forum, Schule)',
                 'Kulturwissen: Circus Maximus, Thermen, römische Götter (Grundlagen)',
-                'Einfachen lateinischen Satz übersetzen (Präsens/Imperfekt)'
+                'Lingua Viva: Lateinische Wörter im Deutschen (via, per, ultra, extra, super)',
+                'Lingua Viva: Lateinische Abkürzungen im Alltag (etc., i.e., e.g., a.m., p.m.)',
+                'Lingua Viva: Lateinische Zahlpräfixe (uni-, bi-, tri-, quad-)',
+                'Lingua Viva: Bekannte lateinische Phrasen (carpe diem, veni vidi vici)',
+                'Lingua Viva: Markennamen aus dem Lateinischen (Audi, Volvo, Aqua)'
             ],
             themes: [
                 'Familie und Verwandtschaft (pater, mater, filius, filia)',
                 'Alltag in Rom (Forum, Markt, Strassen)',
                 'Schule und Lehrer (magister, discipulus)',
-                'Essen und Mahlzeiten (cena, cibus)',
                 'Tiere (equus, canis, leo)',
                 'Götter-Grundlagen (Jupiter, Minerva, Mars)',
                 'Das römische Haus (villa, atrium, hortus)',
                 'Circus und Spiele (gladiator, auriga)',
-                'Freundschaft und Grüsse (amicus, salve)',
-                'Zahlen und Zeit (primus, secundus, hora)'
+                'Lingua Viva: Lateinische Wörter im Alltag (via, per, ultra, extra, super)',
+                'Lingua Viva: Lateinische Abkürzungen (etc., i.e., e.g., a.m., p.m.)',
+                'Lingua Viva: Markennamen und Produktnamen (Audi, Volvo, Aqua, Nova)',
+                'Lingua Viva: Monate und Wochentage aus dem Lateinischen (Januar, März, August)',
+                'Lingua Viva: Lateinische Zahlpräfixe im Alltag (Unikat, Billion, Triathlon)'
             ]
         },
 
-        // MITTEL: Lektionen 11–22 von prima.kompakt (~1.5 Jahre, Fortgeschrittene)
         medium: {
             label: 'mittel – prima.kompakt Lektionen 11–22 (ca. 1.5.–3. Lernjahr)',
             description: `Niveau: prima.kompakt Lektionen 11–22 (Fortgeschrittene, ca. 1.5.–3. Lernjahr).
-Grammatik auf diesem Niveau:
-- Verben: Perfekt Aktiv (v-/u-/s-/Dehnungs-/Reduplikationsperfekt), Plusquamperfekt, Futur I + II, Passiv (Präsens/Imperfekt/Perfekt), Konjunktiv (Präsens + Imperfekt), Deponentien
-- Partizipien: PPP (Partizip Perfekt Passiv), PPA (Partizip Präsens Aktiv), PFA
-- Satzlehre: AcI (vertieft), Ablativus Absolutus, Relativsätze, indirekte Fragesätze, Finalsätze (ut/ne), Konsekutivsätze, cum-Sätze
-- Substantive: i-Deklination, u-Deklination, e-Deklination, Adjektive der 3. Deklination
-- Pronomen: Relativ-, Demonstrativ- (is, hic, ille), Reflexivpronomen
-- Steigerung: Komparativ und Superlativ
-- nd-Formen: Gerundium, Gerundivum
-Vokabeln: Erweiterter Wortschatz ca. 500–700 Wörter
-Kulturwissen: Römische Republik, Senat, Militär, Provinzen, Mythologie vertieft`,
+Grammatik: Perfekt/Plusquamperfekt/Futur, Passiv, Konjunktiv, Partizipien (PPP/PPA), AcI vertieft,
+Ablativus Absolutus, Relativsätze, Finalsätze, Deponentien, nd-Formen, Komparativ/Superlativ.
+Vokabeln: ca. 500–700 Wörter. Kulturwissen: Republik, Senat, Militär, Provinzen.`,
             categories: [
                 'Konjugation: Perfekt Aktiv (Stammformen bestimmen)',
                 'Konjugation: Plusquamperfekt und Futur I/II',
@@ -139,102 +133,87 @@ Kulturwissen: Römische Republik, Senat, Militär, Provinzen, Mythologie vertief
                 'Konjugation: Deponentien (z.B. sequi, loqui, uti)',
                 'Partizipien: PPP, PPA erkennen und übersetzen',
                 'Satzbau: Ablativus Absolutus analysieren',
-                'Satzbau: Relativsätze korrekt zuordnen',
-                'Satzbau: AcI (vertieft, mit verschiedenen Zeitverhältnissen)',
-                'Satzbau: Finalsätze (ut/ne), Konsekutivsätze, cum-Sätze',
-                'Deklination: i-Stämme, u-Deklination, e-Deklination',
+                'Satzbau: AcI (vertieft), Finalsätze, Konsekutivsätze, cum-Sätze',
                 'Adjektive der 3. Deklination und Steigerung (Komparativ/Superlativ)',
                 'nd-Formen: Gerundium und Gerundivum',
-                'Pronomen: Demonstrativpronomen (is, hic, ille) bestimmen',
                 'Kulturwissen: Römische Republik, Senat, Magistrate',
                 'Kulturwissen: Römisches Militär und Expansion',
                 'Mythologie: Götter, Helden und Sagen (vertieft)',
-                'Mittelschweren lateinischen Satz übersetzen'
+                'Lingua Viva: Lateinische Phrasen im Alltag (status quo, pro und contra, ad hoc, per se)',
+                'Lingua Viva: Wissenschaftliche Fachbegriffe aus dem Lateinischen (Virus, Aquarium, Vakuum, Spektrum)',
+                'Lingua Viva: Redewendungen mit lateinischem Ursprung (Rubikon, Pyrrhussieg, Achillesferse)',
+                'Lingua Viva: Lateinische Wortwurzeln in romanischen Sprachen',
+                'Lingua Viva: Latein in Medizin und Recht (Alibi, Corpus delicti, per os)',
+                'Lingua Viva: Geflügelte Worte und ihre Herkunft (veni vidi vici, alea iacta est)',
+                'Lingua Viva: Lateinische Lehnwörter im Deutschen und Englischen (alibi, agenda, curriculum)'
             ],
             themes: [
                 'Krieg und Militär (bellum, exercitus, imperator)',
                 'Politik und Staat (senatus, consul, lex)',
                 'Römische Republik und ihre Institutionen',
-                'Mythologie: Trojanischer Krieg, Odysseus, Aeneas',
-                'Mythologie: Metamorphosen und Heldensagen',
-                'Provinzen und Expansion (Gallien, Britannien)',
-                'Religion und Opfer (templum, sacerdos, sacrificium)',
+                'Mythologie: Trojanischer Krieg und Metamorphosen',
+                'Religion und Opfer (templum, sacerdos)',
                 'Recht und Gesetz (ius, iudex, poena)',
-                'Handel, Geld und Wirtschaft (mercator, pecunia)',
-                'Reisen und Geographie (via, navis, mare)',
-                'Philosophie-Grundlagen (virtus, sapientia)',
-                'Berühmte Römer (Hannibal, Scipio, Romulus)'
+                'Berühmte Römer (Hannibal, Scipio, Romulus)',
+                'Lingua Viva: Lateinische Phrasen im Alltag (status quo, ad hoc, pro und contra, per se)',
+                'Lingua Viva: Wissenschaftsbegriffe lateinischer Herkunft (Virus, Aquarium, Vakuum, Spektrum)',
+                'Lingua Viva: Deutsche Redewendungen mit antikem Ursprung (Rubikon, Pyrrhussieg, Achillesferse)',
+                'Lingua Viva: Latein in Medizin und Recht (Alibi, Corpus delicti, Rezept)',
+                'Lingua Viva: Geflügelte Worte der Antike (veni vidi vici, alea iacta est, Et tu Brute)',
+                'Lingua Viva: Markennamen und ihr lateinischer Ursprung (Audi, Volvo, Alfa Romeo, Nivea)'
             ]
         },
 
-        // SCHWER: Lektüre-Phase & Latinum-Vorbereitung (~2 Jahre)
         hard: {
             label: 'schwer – Lektüre & Latinum-Vorbereitung (ca. 3.–5. Lernjahr)',
             description: `Niveau: Lektüre-Phase und Latinum-Vorbereitung (ca. 3.–5. Lernjahr, Maturaniveau).
-Basierend auf den prima.kompakt "Latein original"-Einheiten (Martial, Phädrus, Plinius, Caesar, Cicero) und der Vorbereitung auf das Latinum am Schweizer Gymnasium.
-
-Grammatik auf diesem Niveau (alles aus Leicht + Mittel plus):
-- Konjunktiv in allen Zeiten (auch Perfekt und Plusquamperfekt)
-- Irrealis (Gegenwart/Vergangenheit)
-- Indirekte Rede (oratio obliqua)
-- Komplexe Perioden mit verschachtelten Nebensätzen
-- Consecutio temporum
-- Alle Partizipialkonstruktionen sicher beherrschen
-- Supinum I und II
-- Seltene Formen (ferre, velle, nolle, malle, fieri, ire)
-
-Textarbeit:
-- Originaltexte von Caesar (De bello Gallico), Cicero (Reden, Briefe), Ovid (Metamorphosen), Plinius (Briefe), Martial (Epigramme), Phädrus (Fabeln)
-- Stilmittel erkennen (Alliteration, Anapher, Chiasmus, Hyperbaton, Klimax, Trikolon etc.)
-- Metrik: Hexameter-Grundlagen (bei Ovid/Vergil)
-- Übersetzungstechnik: Konstruktionsmethode, Einrückmethode
-
-Kulturwissen (vertieft):
-- Späte Republik und Prinzipat (Caesar, Augustus, Cicero im historischen Kontext)
-- Römische Rhetorik und Redekunst
-- Philosophische Strömungen (Stoa, Epikureismus, Skeptizismus)
-- Römische Literaturgeschichte
-- Rezeption der Antike`,
+Originaltexte: Caesar, Cicero, Ovid, Plinius, Martial, Phädrus.
+Grammatik: Konjunktiv alle Zeiten, Irrealis, oratio obliqua, Consecutio temporum,
+alle Partizipialkonstruktionen, Stilmittel, Metrik (Hexameter).
+Kulturwissen: Späte Republik, Prinzipat, Rhetorik, Philosophie (Stoa, Epikur), Rezeption.`,
             categories: [
-                'Konjunktiv in allen Zeiten anwenden (Perfekt, Plusquamperfekt)',
+                'Konjunktiv in allen Zeiten (Perfekt, Plusquamperfekt)',
                 'Irrealis erkennen und übersetzen (Gegenwart/Vergangenheit)',
                 'Indirekte Rede (oratio obliqua) analysieren',
                 'Consecutio temporum: Zeitverhältnisse in Nebensätzen',
-                'Komplexe Satzperioden entschlüsseln (verschachtelte Nebensätze)',
                 'Unregelmässige Verben: ferre, velle, nolle, malle, fieri, ire',
                 'Stilmittel erkennen (Chiasmus, Hyperbaton, Anapher, Klimax etc.)',
                 'Metrik: Hexameter (Längen und Kürzen, Zäsuren)',
                 'Originaltexte: Caesar (De bello Gallico) – Syntax und Inhalt',
                 'Originaltexte: Cicero (Reden/Briefe) – Rhetorik und Argumentation',
                 'Originaltexte: Ovid (Metamorphosen) – Dichtung und Mythologie',
-                'Originaltexte: Plinius (Briefe) – Alltagsleben und Gesellschaft',
-                'Originaltexte: Martial (Epigramme) – Pointe und Gesellschaftskritik',
-                'Originaltexte: Phädrus (Fabeln) – Moral und Erzähltechnik',
-                'Kulturwissen: Späte Republik (Caesar, Pompeius, Bürgerkriege)',
-                'Kulturwissen: Cicero – Leben, Werk und politischer Kontext',
-                'Kulturwissen: Prinzipat und augusteisches Zeitalter',
-                'Kulturwissen: Römische Rhetorik (genera dicendi, partes orationis)',
-                'Philosophie: Stoa, Epikureismus und ihre lateinischen Vertreter',
+                'Originaltexte: Plinius, Martial, Phädrus',
+                'Kulturwissen: Späte Republik, Prinzipat, augusteisches Zeitalter',
+                'Philosophie: Stoa, Epikureismus und ihre Vertreter',
                 'Lateinische Sentenzen und Sprichwörter (mit Kontext)',
-                'Anspruchsvollen Originalsatz übersetzen und interpretieren'
+                'Lingua Viva: Lateinische Redewendungen mit mythologischem Hintergrund (Rubikon, Gordischer Knoten)',
+                'Lingua Viva: Kirchenlatein und Liturgie (Pater noster, Agnus Dei, Ave Maria, Te Deum)',
+                'Lingua Viva: Latein im Recht (habeas corpus, in dubio pro reo, prima facie, Corpus Juris)',
+                'Lingua Viva: Neo-Latein und Latein als lebende Sprache (Vatikan, Nuntii Latini, Akademien)',
+                'Lingua Viva: Lateinische Etymologie in Botanik, Zoologie, Astronomie (Homo sapiens, Genus, Species)',
+                'Lingua Viva: Latein in Inschriften, Wappen, Mottos (Confederatio Helvetica, E pluribus unum)',
+                'Lingua Viva: Latein als Mutter der romanischen Sprachen – Etymologie und Entwicklung',
+                'Lingua Viva: Lateinische Sentenzen und ihre Rezeptionsgeschichte (Horaz: carpe diem, memento mori)'
             ],
             themes: [
                 'Caesar und der Gallische Krieg',
                 'Cicero als Redner und Politiker',
                 'Ovids Metamorphosen und die Götterwelt',
-                'Plinius und das römische Alltagsleben',
-                'Martials scharfzüngige Epigramme',
-                'Phädrus und die äsopische Fabeltradition',
+                'Plinius, Martial, Phädrus',
                 'Der Untergang der Republik',
-                'Augustus und der Beginn des Prinzipats',
+                'Augustus und der Prinzipat',
                 'Römische Rhetorik und Überzeugungskunst',
                 'Philosophie in Rom (Seneca, Cicero, Lukrez)',
-                'Römische Literaturgeschichte und Gattungen',
                 'Das Weiterleben der Antike (Rezeption)',
                 'Recht, Macht und Moral in der Antike',
-                'Römische Baukunst und Urbanistik (Kolosseum, Aquädukte)',
-                'Frauen in der römischen Gesellschaft',
-                'Sklaverei und soziale Schichtung in Rom'
+                'Lingua Viva: Redewendungen mit mythologischem Hintergrund (Rubikon, Achillesferse, Gordischer Knoten)',
+                'Lingua Viva: Kirchenlatein – Liturgie und Gebet (Pater noster, Ave Maria, Agnus Dei)',
+                'Lingua Viva: Latein im modernen Recht (habeas corpus, in dubio pro reo, Corpus Juris)',
+                'Lingua Viva: Neo-Latein: Vatikan, Nuntii Latini, lateinische Akademien',
+                'Lingua Viva: Lateinische Etymologie in Wissenschaft (Homo sapiens, Aquarium, Botanik)',
+                'Lingua Viva: Latein in Wappen und nationalen Mottos (Confederatio Helvetica, E pluribus unum)',
+                'Lingua Viva: Latein → Romanische Sprachen (Vulgarlatein, Entwicklung, Gemeinsamkeiten)',
+                'Lingua Viva: Sentenzen und ihre Herkunft (Horaz carpe diem, Seneca tempus fugit, Ovid)'
             ]
         }
     };
@@ -245,65 +224,93 @@ Kulturwissen (vertieft):
     const filteredCategories = filterByTopic(config.categories, activeTopic);
     const filteredThemes     = filterByTopic(config.themes,     activeTopic);
 
-    // Zufällig aus den gefilterten Listen wählen
     const randomCategory = filteredCategories[Math.floor(Math.random() * filteredCategories.length)];
     const randomTheme    = filteredThemes[Math.floor(Math.random() * filteredThemes.length)];
     const randomSeed     = Math.floor(Math.random() * 100000);
 
-    // Themenbezeichnung für den Prompt (menschlich lesbar)
     const topicLabel = {
         mythen:        'Mythen (Götter, Helden, Sagen)',
         geschichte:    'Geschichte & Kultur (Rom, Politik, Alltag)',
-        vokabeln:      'Vokabeln & Grammatik',
+        alltagslatein: 'Lingua Viva – Latein heute & überall',
         ueberraschung: 'gemischt (alle Themen)'
     }[activeTopic] || 'gemischt';
 
-    // ── Bereits gestellte Fragen ausschliessen ──────────────────────────────
+    // ── Bereits gestellte Fragen ausschliessen ────────────────────────────────
     let exclusionNote = '';
     if (previousQuestions && Array.isArray(previousQuestions) && previousQuestions.length > 0) {
         const recent = previousQuestions.slice(-10);
         exclusionNote = `\n\nBEREITS GESTELLTE FRAGEN (stelle KEINE davon erneut!):\n${recent.map((q, i) => `${i + 1}. ${q}`).join('\n')}`;
     }
 
-    const prompt = `Erstelle eine Quiz-Frage für Schweizer Gymnasiasten, die mit dem Lehrbuch "prima.kompakt" (C.C. Buchner Verlag) Latein lernen.
+    // ── Spezielle Anweisung für Lingua Viva ──────────────────────────────────
+    const linguaVivaExtra = activeTopic === 'alltagslatein' ? `
+
+SPEZIELLE ANWEISUNGEN FÜR "LINGUA VIVA – LATEIN HEUTE & ÜBERALL":
+Ziel: Zeige den Schülerinnen und Schülern, dass Latein keine tote Sprache ist!
+Fragen sollen folgende Bereiche abdecken:
+
+1. WÖRTER IM ALLTAG: Lateinische Wörter die wir täglich nutzen
+   Beispiele: via, per, ultra, extra, sub, super, contra, pro, status quo, ad hoc, etc.
+
+2. ABKÜRZUNGEN: Lateinische Kürzel im modernen Gebrauch
+   Beispiele: etc. (et cetera), i.e. (id est), e.g. (exempli gratia), a.m./p.m., NB (nota bene), PS (post scriptum), et al. (et alii)
+
+3. GEFLÜGELTE WORTE: Bekannte Phrasen und ihre Bedeutung
+   Beispiele: "carpe diem" (Horaz), "veni vidi vici" (Caesar), "alea iacta est" (Caesar/Sueton),
+   "in medias res" (Horaz), "alma mater", "curriculum vitae", "sine qua non", "tabula rasa", "memento mori"
+
+4. REDEWENDUNGEN MIT ANTIKEM URSPRUNG im Deutschen:
+   Beispiele: "den Rubikon überschreiten", "die Würfel sind gefallen", "Pyrrhussieg",
+   "Achillesferse", "Gordischer Knoten", "Prokrustesbett", "nach Canossa gehen"
+
+5. MARKENNAMEN aus dem Lateinischen:
+   Beispiele: Audi (lat. "audi!" = höre!), Volvo (lat. "volvo" = ich wälze/rolle),
+   Aqua (Wasser), Nova, Optima, Maxima, Alfa Romeo, Subaru (nicht lateinisch!), Nivea (lat. "nivea" = schneeweiss)
+
+6. WISSENSCHAFT: Lateinische Fachbegriffe in modernen Disziplinen
+   Beispiele: Virus, Vakuum, Aquarium, Medium, Index, Agenda, Datum, Album, Spektrum, Radius,
+   Homo sapiens, Genus, Species (Biologie), Corpus delicti, Alibi (Recht)
+
+7. ROMANISCHE SPRACHEN: Wo lebt Latein als Sprache weiter?
+   Beispiele: Latein → Italienisch, Spanisch, Französisch, Portugiesisch, Rumänisch
+   Gemeinsamkeiten zeigen (aqua → eau/agua/acqua)
+
+8. LATEIN HEUTE GESPROCHEN:
+   Beispiele: Vatikan (offizielle Sprache), Nuntii Latini (finnisches Radiolatein), lateinische Akademien,
+   Kirchenlatein, lateinische Inschriften, Universitätsmottos, Staatsmottos
+
+Wähle Beispiele passend zur Schwierigkeitsstufe:
+- LEICHT: Sehr bekannte Beispiele (a.m./p.m., super, ultra, Audi, carpe diem)
+- MITTEL: Phrasen, Redewendungen, Wissenschaftsbegriffe mit Erklärung
+- SCHWER: Etymologie, Kirchenlatein, Rechtslatein, Neo-Latein, romanische Sprachentwicklung
+` : '';
+
+    const prompt = `Erstelle eine Quiz-Frage für Schweizer Gymnasiasten (Lehrbuch "prima.kompakt", C.C. Buchner Verlag).
 
 SCHWIERIGKEITSSTUFE: ${config.label}
-
 ${config.description}
 
-ÜBERGEORDNETES THEMA dieser Frage: ${topicLabel}
-KATEGORIE für diese Frage: ${randomCategory}
+THEMA dieser Frage: ${topicLabel}
+KATEGORIE: ${randomCategory}
 THEMENBEREICH: ${randomTheme}
-[Zufallsseed: ${randomSeed}]
-[Zeitstempel: ${new Date().toISOString()}]
+[Seed: ${randomSeed}] [Zeit: ${new Date().toISOString()}]
+${linguaVivaExtra}
+Erstelle eine NEUE, EINZIGARTIGE Frage zu diesem Thema!${exclusionNote}
 
-WICHTIG: Erstelle eine NEUE, EINZIGARTIGE Frage passend zum übergeordneten Thema "${topicLabel}", zur Kategorie und zum Themenbereich!${exclusionNote}
+QUALITÄTSKONTROLLE:
+✔ Nur Niveau-passendes Vokabular und Grammatik
+✔ Alle lateinischen Formen 100% korrekt
+✔ Historische/etymologische Fakten verifizierbar
+✔ Falsche Antworten plausibel, aber eindeutig falsch
+✔ Bei Lingua Viva: Erklärung enthält Etymologie + heutige Relevanz
 
-QUALITÄTSKONTROLLE – KRITISCH:
-✔ Verwende NUR Vokabeln und Grammatik, die zum angegebenen Niveau passen
-✔ Bei "leicht": NUR Grundwortschatz und einfache Grammatik (Lektionen 1–10)
-✔ Bei "mittel": Erweiterter Wortschatz, aber keine Originaltexte (Lektionen 11–22)
-✔ Bei "schwer": Originaltextbezug, komplexe Grammatik, Stilmittel, Metrik erlaubt
-✔ Prüfe ALLE Deklinationen/Konjugationen auf 100% Korrektheit
-✔ Historische Fakten müssen verifizierbar sein
-✔ Falsche Antworten müssen plausibel, aber eindeutig falsch sein
-✔ Keine erfundenen oder unsicheren lateinischen Formen
-
-Gib die Antwort als VALIDES JSON zurück (keine Markdown-Formatierung):
-
+Antwort als valides JSON (kein Markdown):
 {
-  "question": "Die Frage präzise und klar formuliert auf Deutsch",
-  "options": ["Antwort 1", "Antwort 2", "Antwort 3", "Antwort 4"],
+  "question": "Frage auf Deutsch",
+  "options": ["Antwort A", "Antwort B", "Antwort C", "Antwort D"],
   "correctIndex": 0,
-  "explanation": "Kurze, präzise Erklärung mit didaktischem Wert (1-2 Sätze). Bei Grammatikfragen: Regel nennen. Bei Vokabeln: Stammformen angeben."
-}
-
-WICHTIG:
-- Nur JSON ausgeben, keine zusätzlichen Texte oder Markdown
-- correctIndex ist 0, 1, 2 oder 3 (die richtige Antwort)
-- Alle 4 Antworten müssen plausibel klingen (keine offensichtlich falschen)
-- Erklärung sollte Lerneffekt haben und auf prima.kompakt-Niveau passen
-- Im Zweifelsfall: sichere, etablierte Fragen statt kreative mit Fehlerrisiko`;
+  "explanation": "Erklärung mit Lerneffekt (1-2 Sätze)"
+}`;
 
     try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -317,30 +324,28 @@ WICHTIG:
                 messages: [
                     {
                         role: 'system',
-                        content: `Du bist ein ausgezeichneter, fehlerfreier Latein-Lehrer an einem Schweizer Gymnasium.
-Du arbeitest mit dem Lehrbuch "prima.kompakt" vom C.C. Buchner Verlag (22 Lektionen, ca. 800 Lernwörter, danach Originallektüre mit Martial, Phädrus, Plinius, Caesar und Cicero).
+                        content: `Du bist ein ausgezeichneter Latein-Lehrer an einem Schweizer Gymnasium mit Expertise in lateinischer Sprachwissenschaft und Rezeptionsgeschichte.
+Du arbeitest mit dem Lehrbuch "prima.kompakt" (C.C. Buchner Verlag, 22 Lektionen).
 
 QUALITÄTSSTANDARDS:
-- Alle lateinischen Vokabeln, Grammatik und Übersetzungen müssen 100% korrekt sein
-- Prüfe jede Frage doppelt auf Fehler in Deklination, Konjugation und Syntax
-- Verwende nur etablierte, klassische Beispiele (keine erfundenen oder unsicheren Wörter)
-- Kulturwissen muss historisch akkurat sein (keine Spekulationen)
-- Erklärungen müssen didaktisch wertvoll und präzise sein
-- Halte dich STRIKT an das angegebene Niveau – keine zu schweren Fragen bei "leicht"!
+- Alle Formen, Vokabeln und Übersetzungen müssen 100% korrekt sein
+- Etymologische Angaben müssen wissenschaftlich akkurat sein
+- Kulturwissen muss historisch belegt sein
+- Erklärungen didaktisch wertvoll und präzise
+- Strikt ans angegebene Niveau halten
 
-NIVEAUSTUFEN (orientiert an prima.kompakt):
-- LEICHT (Lektionen 1–10): Grundwortschatz, a-/o-/kons. Deklination, Präsens, Imperfekt, esse, einfacher AcI, Imperativ
-- MITTEL (Lektionen 11–22): Perfekt, Passiv, Partizipien, Abl.Abs., Konjunktiv, Relativsätze, Deponentien, nd-Formen
-- SCHWER (Lektüre/Latinum): Originaltexte (Caesar, Cicero, Ovid etc.), Stilmittel, Metrik, komplexe Syntax, Irrealis, oratio obliqua
+NIVEAUSTUFEN:
+- LEICHT: Grundwortschatz, einfache Grammatik (Lektionen 1–10)
+- MITTEL: Erweiterter Wortschatz, keine Originaltexte (Lektionen 11–22)
+- SCHWER: Originaltexte, Stilmittel, Metrik, komplexe Syntax
 
-DEINE AUFGABE:
-Erstelle akademisch einwandfreie Quiz-Fragen passend zum Niveau und zum angegebenen Thema.
-Antworte IMMER nur mit validem JSON, ohne Markdown-Formatierung oder zusätzlichen Text.
+KATEGORIE LINGUA VIVA:
+Zeige, dass Latein keine tote Sprache ist. Erkläre in der "explanation" immer:
+- die lateinische Wurzel/Herkunft
+- wie das Wort/die Phrase heute noch lebt
+Begeistere die Schülerinnen und Schüler für die Lebendigkeit des Lateins!
 
-WICHTIG:
-- Qualität vor Kreativität – lieber eine sichere, korrekte Frage als eine originelle mit Fehlerrisiko
-- Jede Frage muss ANDERS sein als alle vorherigen
-- Variiere Vokabeln, Grammatikthemen und Kontexte`
+Antworte NUR mit validem JSON, kein Markdown.`
                     },
                     {
                         role: 'user',
@@ -381,7 +386,6 @@ WICHTIG:
         } catch (e) {
             const jsonMatch = content.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/) ||
                              content.match(/(\{[\s\S]*\})/);
-
             if (jsonMatch) {
                 questionData = JSON.parse(jsonMatch[1]);
             } else {
