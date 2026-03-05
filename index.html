@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ludus Latinus – Latein spielerisch lernen</title>
+    <title>Lingua Viva – Latein spielerisch lernen</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23FF2D78'/><stop offset='50%25' stop-color='%23FFD700'/><stop offset='100%25' stop-color='%2300F5FF'/></linearGradient></defs><circle cx='32' cy='32' r='30' fill='%2307091a' stroke='url(%23g)' stroke-width='3'/><text x='32' y='26' text-anchor='middle' font-family='serif' font-weight='bold' font-size='18' fill='%23FFD700'>LV</text><text x='32' y='44' text-anchor='middle' font-family='serif' font-size='8' fill='%2300F5FF'>LINGUA VIVA</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -253,7 +254,7 @@
             border-color: rgba(255,215,0,0.55);
             background: rgba(255,215,0,0.06);
         }
-        .topic-card[data-topic="vokabeln"]:hover {
+        .topic-card[data-topic="alltagslatein"]:hover {
             transform: translateY(-6px);
             box-shadow: 0 12px 35px rgba(0,245,255,0.25);
             border-color: rgba(0,245,255,0.5);
@@ -628,9 +629,9 @@
 
     <div class="container">
         <header>
-            <h1 onclick="resetToStart()" title="Zurück zum Start">Ludus Latinus</h1>
-            <p class="subtitle" data-de="Latein spielerisch lernen" data-la="Ludus quaestionum Latinarum" data-ch="Latiin spielerisch lerne">
-                Latein spielerisch lernen
+            <h1 onclick="resetToStart()" title="Zurück zum Start">Lingua Viva</h1>
+            <p class="subtitle" data-de="Latein spielerisch entdecken" data-la="Lingua Latina viva et praesens" data-ch="Latiin spielerisch entdecke">
+                Latein spielerisch entdecken
             </p>
             <div class="language-selector">
                 <button class="lang-btn active" data-lang="de">Deutsch</button>
@@ -696,16 +697,16 @@
                               data-ch="Rom, Politik & Kultur">Rom, Politik & Kultur</span>
                     </button>
 
-                    <button class="topic-card" data-topic="vokabeln" onclick="selectTopic('vokabeln')">
-                        <span class="topic-emoji">📖</span>
+                    <button class="topic-card" data-topic="alltagslatein" onclick="selectTopic('alltagslatein')">
+                        <span class="topic-emoji">🌍</span>
                         <span class="topic-name"
-                              data-de="Vokabeln & Grammatik"
-                              data-la="Vocabula & Grammatica"
-                              data-ch="Vokable & Grammatik">Vokabeln & Grammatik</span>
+                              data-de="Lingua Viva"
+                              data-la="Lingua Viva"
+                              data-ch="Lingua Viva">Lingua Viva</span>
                         <span class="topic-desc"
-                              data-de="Sprache & Formen"
-                              data-la="Lingua et Formae"
-                              data-ch="Sprooch & Forme">Sprache & Formen</span>
+                              data-de="Latein heute & überall"
+                              data-la="Latine hodie ubique"
+                              data-ch="Latiin hit & überall">Latein heute & überall</span>
                     </button>
 
                     <button class="topic-card" data-topic="ueberraschung" onclick="selectTopic('ueberraschung')">
@@ -819,19 +820,19 @@
             de: {
                 mythen:        '🏛️ Mythen',
                 geschichte:    '⚔️ Geschichte',
-                vokabeln:      '📖 Vokabeln & Grammatik',
+                alltagslatein: '🌍 Lingua Viva',
                 ueberraschung: '🎲 Überraschung'
             },
             la: {
                 mythen:        '🏛️ Mythi',
                 geschichte:    '⚔️ Historia',
-                vokabeln:      '📖 Vocabula & Grammatica',
+                alltagslatein: '🌍 Lingua Viva',
                 ueberraschung: '🎲 Fortuito'
             },
             ch: {
                 mythen:        '🏛️ Mythe',
                 geschichte:    '⚔️ Geschichte',
-                vokabeln:      '📖 Vokable & Grammatik',
+                alltagslatein: '🌍 Lingua Viva',
                 ueberraschung: '🎲 Überraschig'
             }
         };
