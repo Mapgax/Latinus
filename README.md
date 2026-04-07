@@ -10,7 +10,7 @@ Ein interaktives, gamifiziertes Latein-Quiz für die Kantonsschule Kollegium Sch
 - **Echtzeit-Statistik**: Punkte, richtige Antworten, Gesamtfragen
 - **Session-basiert**: Keine Datenspeicherung (datenschutzkonform!)
 
-### 📚 Fragetypen (von Claude AI generiert)
+### 📚 Fragetypen (von OpenAI generiert, lokal validiert)
 - **Vokabelübersetzung**: Latein → Deutsch
 - **Grammatikfragen**: Konjugationen, Deklinationen, Satzbau
 - **Kulturwissen**: Römische Geschichte, Mythologie, Alltag
@@ -39,7 +39,7 @@ Ein interaktives, gamifiziertes Latein-Quiz für die Kantonsschule Kollegium Sch
    ```bash
    cd /pfad/zu/deinem/projekt
    git add index.html
-   git commit -m "Updated Ludus Latinus with Claude API"
+   git commit -m "Update Ludus Latinus quiz backend"
    git push origin main
    ```
 
@@ -81,13 +81,20 @@ vercel --prod
 - **HTML5**: Struktur
 - **CSS3**: Styling mit Custom Properties, Animations, Grid/Flexbox
 - **Vanilla JavaScript**: Logik und API-Integration
-- **Claude API**: Dynamische Fragengenerierung via Anthropic AI
+- **OpenAI API**: Dynamische Fragengenerierung mit zusätzlicher lokaler Validierung
 
 ### API Integration
-Die Fragen werden live von der Claude API generiert:
-- Model: `claude-sonnet-4-20250514`
-- Endpoint: `https://api.anthropic.com/v1/messages`
-- Keine API-Key Konfiguration nötig (wird von Vercel/Browser gehandhabt)
+Die Fragen werden live über eine Vercel-Serverless-Function erzeugt und anschliessend validiert:
+- Model: `gpt-4.1-mini`
+- Endpoint: `https://api.openai.com/v1/chat/completions`
+- Validierung: lokale Wortliste + heuristische Latein-Prüfung
+- Fallback: kuratierte statische Fragen aus `data/questions_all.json`
+- Optional: externe PONS-Validierung über `api/pons-lookup.js`
+
+Wichtiger Sicherheitshinweis:
+- Die Generierung sendet Quiz-Kontext an die OpenAI API.
+- Die optionale PONS-Validierung sendet einzelne unbekannte Wörter an PONS.
+- API-Schlüssel gehören ausschliesslich in Vercel Environment Variables, nie ins Frontend.
 
 ### Browser-Kompatibilität
 - Chrome/Edge: ✅
@@ -123,7 +130,7 @@ const prompt = `Du bist ein Latein-Lehrer. Erstelle eine...`;
 
 ### Fragen laden nicht
 - **Browser-Konsole** öffnen (F12) und Fehler prüfen
-- **API-Limit**: Claude API hat Rate Limits
+- **API-Limit**: OpenAI API und optionale PONS-Abfragen haben Rate Limits
 - **Netzwerk**: Internet-Verbindung prüfen
 
 ### Design sieht anders aus

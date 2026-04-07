@@ -1,0 +1,647 @@
+{
+  "meta": {
+    "version": "1.0",
+    "curriculum": "prima.kompakt, C.C. Buchner Verlag",
+    "school": "Kantonsschule Küsnacht (KSK)",
+    "validated": true,
+    "notes": "Alle Fragen manuell geprüft. Lateinische Formen gegen Georges/Stowasser verifiziert."
+  },
+
+  "topics": {
+
+    "mythen": {
+      "leicht": [
+        {
+          "id": "myt_e_001",
+          "question": "Was bedeutet das lateinische Wort 'deus'?",
+          "options": ["Tempel", "Opfer", "Gott", "Priester"],
+          "correctIndex": 2,
+          "explanation": "deus, -i m. (2. Deklination) = der Gott. Steckt in 'Deismus', frz. 'Dieu' und engl. 'deity'."
+        },
+        {
+          "id": "myt_e_002",
+          "question": "Welcher Gott ist der Göttervater im römischen Pantheon?",
+          "options": ["Mars", "Jupiter", "Neptun", "Merkur"],
+          "correctIndex": 1,
+          "explanation": "Jupiter (griech. Zeus) ist der Göttervater. Sein Name lebt im frz. Wochentag 'jeudi' (Jovis dies) weiter."
+        },
+        {
+          "id": "myt_e_003",
+          "question": "Welche Göttin ist die römische Göttin der Weisheit?",
+          "options": ["Venus", "Diana", "Minerva", "Juno"],
+          "correctIndex": 2,
+          "explanation": "Minerva (griech. Athene) ist die Göttin der Weisheit und des Handwerks. Sie war auch Schutzgöttin Roms."
+        },
+        {
+          "id": "myt_e_004",
+          "question": "Von welchem Tier wurden Romulus und Remus laut Sage gesäugt?",
+          "options": ["Bärin", "Adler", "Wölfin", "Hirschkuh"],
+          "correctIndex": 2,
+          "explanation": "Die lupa Capitolina (Kapitolinische Wölfin) säugte die Zwillinge. Die berühmte Bronzestatue ist heute in den Kapitolinischen Museen."
+        },
+        {
+          "id": "myt_e_005",
+          "question": "Wie heisst der Götterbote im Römischen?",
+          "options": ["Vulcanus", "Pluto", "Mercurius", "Bacchus"],
+          "correctIndex": 2,
+          "explanation": "Mercurius (griech. Hermes) ist der Götterbote. Sein Name lebt im Planeten Merkur und im Element Quecksilber (lat. mercurium) weiter."
+        },
+        {
+          "id": "myt_e_006",
+          "question": "Was bedeutet 'dea' auf Deutsch?",
+          "options": ["Tempel", "Opfer", "Göttin", "Priesterin"],
+          "correctIndex": 2,
+          "explanation": "dea, -ae f. (1. Deklination) = die Göttin. Eines der Grundwörter aus prima.kompakt, Lektionen 1–3."
+        },
+        {
+          "id": "myt_e_007",
+          "question": "Wer ist die Göttin der Liebe im Römischen?",
+          "options": ["Minerva", "Juno", "Diana", "Venus"],
+          "correctIndex": 3,
+          "explanation": "Venus (griech. Aphrodite) ist die Göttin der Liebe und Schönheit. Ihr Name lebt im Planeten Venus und im Wort 'Venedig' (Venezia) weiter."
+        },
+        {
+          "id": "myt_e_008",
+          "question": "Wer gründete laut Sage die Stadt Rom?",
+          "options": ["Remus", "Aeneas", "Romulus", "Numa"],
+          "correctIndex": 2,
+          "explanation": "Romulus gründete Rom 753 v. Chr. Er tötete seinen Bruder Remus und wurde der erste König Roms."
+        }
+      ],
+      "mittel": [
+        {
+          "id": "myt_m_001",
+          "question": "Welche Göttin erhielt den Goldenen Apfel im Urteil des Paris?",
+          "options": ["Juno für ihre Macht", "Minerva für ihre Weisheit", "Venus für ihre Schönheit", "Diana für ihre Jagdkunst"],
+          "correctIndex": 2,
+          "explanation": "Paris sprach den Apfel (Aufschrift: 'der Schönsten') der Venus zu. Als Belohnung versprach sie ihm Helena — dies löste den Trojanischen Krieg aus."
+        },
+        {
+          "id": "myt_m_002",
+          "question": "Was bedeutet 'Aeneas ex Troia fugit'?",
+          "options": ["Aeneas kämpft für Troja", "Aeneas flieht aus Troja", "Aeneas gründet Troja", "Aeneas kehrt nach Troja zurück"],
+          "correctIndex": 1,
+          "explanation": "fugit = 3. Sg. Präsens von fugere (fliehen). ex + Ablativ = 'aus'. Aeneas floh nach Italiens Küste und wurde Stammvater der Römer (Vergils Aeneis)."
+        },
+        {
+          "id": "myt_m_003",
+          "question": "Wer war der Vater des Hercules?",
+          "options": ["Neptun", "Mars", "Jupiter", "Vulcanus"],
+          "correctIndex": 2,
+          "explanation": "Hercules war Sohn des Jupiter und der sterblichen Alcmena — ein Halbgott (semideus). Die 12 Arbeiten (labores Herculis) sind ein zentrales Mythenthema."
+        },
+        {
+          "id": "myt_m_004",
+          "question": "Welche Göttin ist die Mutter des Aeneas?",
+          "options": ["Juno", "Minerva", "Venus", "Diana"],
+          "correctIndex": 2,
+          "explanation": "Venus ist die Mutter des Aeneas (Sohn des Anchises). Vergils Aeneis beginnt: 'Arma virumque cano' — dieser vir ist Aeneas."
+        },
+        {
+          "id": "myt_m_005",
+          "question": "Wie heisst der tiefste Teil der Unterwelt in der römischen Vorstellung?",
+          "options": ["Olympus", "Elysium", "Tartarus", "Forum"],
+          "correctIndex": 2,
+          "explanation": "Tartarus war der Strafort der Unterwelt. Elysium dagegen war das Paradies der Seligen. Pluto (griech. Hades) herrschte über beide Bereiche."
+        },
+        {
+          "id": "myt_m_006",
+          "question": "Was ist die korrekte lateinische Form für 'die Götter beschützen die Stadt' (Präsens)?",
+          "options": ["dei urbem custodiunt", "deos urbem custodiunt", "dei urbi custodiunt", "deis urbem custodiunt"],
+          "correctIndex": 0,
+          "explanation": "dei = Nom. Pl. von deus (Subjekt); urbem = Akk. Sg. von urbs (Objekt); custodiunt = 3. Pl. Präsens von custodire (4. Konj.)."
+        }
+      ],
+      "schwer": [
+        {
+          "id": "myt_s_001",
+          "question": "Wie lautet der erste Vers der Aeneis von Vergil?",
+          "options": [
+            "Arma virumque cano, Troiae qui primus ab oris",
+            "Gallia est omnis divisa in partes tres",
+            "Odi et amo, quare id faciam fortasse requiris",
+            "Quadrupedante putrem sonitu quatit ungula campum"
+          ],
+          "correctIndex": 0,
+          "explanation": "'Arma virumque cano, Troiae qui primus ab oris' — 'Von Waffen und dem Mann singe ich, der als erster von Trojas Küste...' Der Hexameter eröffnet Vergils Epos. cano (ich singe) knüpft an die epische Musenanrufung an."
+        },
+        {
+          "id": "myt_s_002",
+          "question": "Was versteht man in der Literaturkritik unter 'deus ex machina'?",
+          "options": [
+            "Ein Gott, der durch eine Maschine auf die Bühne gebracht wird",
+            "Eine unwahrscheinliche, äusserliche Lösung eines dramatischen Konflikts",
+            "Ein mechanischer Tempel für Götterstatuen",
+            "Die göttliche Eingebung eines Dichters beim Schreiben"
+          ],
+          "correctIndex": 1,
+          "explanation": "'deus ex machina' (Gott aus der Maschine) bezeichnet eine zu einfache Auflösung im Drama. Im griechischen Theater wurden Götter per Kran (mēchanē) auf die Bühne geflogen."
+        },
+        {
+          "id": "myt_s_003",
+          "question": "Welches Stilmittel nennt man, wenn Vergil 'arma virumque' schreibt statt 'arma viri'?",
+          "options": ["Chiasmus", "Hendiadyoin", "Synekdoche", "Litotes"],
+          "correctIndex": 1,
+          "explanation": "Hendiadyoin ('eins durch zwei'): zwei Substantive mit 'und' verbunden, die eigentlich einen Begriff bilden — 'die kriegerischen Taten des Mannes'. Vergil komprimiert das ganze Epos in zwei Wörter."
+        },
+        {
+          "id": "myt_s_004",
+          "question": "Ovid beginnt die Metamorphosen mit 'In nova fert animus mutatas dicere formas / corpora.' Was ist 'mutatas' grammatikalisch?",
+          "options": [
+            "Präsens Aktiv, 3. Sg.",
+            "Perfektpartizip Passiv (PPP), Akk. Pl. f., Attribut zu 'formas'",
+            "Futur Passiv, 3. Sg.",
+            "Gerundivum, Nom. Sg. n."
+          ],
+          "correctIndex": 1,
+          "explanation": "mutatas ist das PPP von mutare (verändern), Akk. Pl. f. — Attribut zu formas/corpora. 'Veränderte Körpergestalten' — Ovids Thema. Das Hyperbaton (Trennung von Adj. und Subst.) ist typisch für seinen elegischen Stil."
+        }
+      ]
+    },
+
+    "geschichte": {
+      "leicht": [
+        {
+          "id": "ges_e_001",
+          "question": "Was bedeutet 'SPQR' (Senatus Populusque Romanus)?",
+          "options": [
+            "Der Senat und das Volk von Rom",
+            "Der Senat, die Priester und die Legionen",
+            "Die Stärke, Macht und Herrschaft Roms",
+            "Der Senat und die Provinzen Roms"
+          ],
+          "correctIndex": 0,
+          "explanation": "SPQR = 'Senatus Populusque Romanus' — Der Senat und das Volk Roms. Diese Formel stand auf Fahnen, Gebäuden und Münzen. Sie ist heute noch das Wappen der Stadt Rom."
+        },
+        {
+          "id": "ges_e_002",
+          "question": "Was bedeutet 'miles' auf Deutsch?",
+          "options": ["Schwert", "Schild", "Soldat", "Feldherr"],
+          "correctIndex": 2,
+          "explanation": "miles, militis m. (3. Deklination) = der Soldat. Steckt in 'Militär', 'militant' und 'Miliz'. Wichtiges Vokabel in prima.kompakt."
+        },
+        {
+          "id": "ges_e_003",
+          "question": "Was war das Forum im alten Rom?",
+          "options": ["Ein Militärlager", "Der öffentliche Markt- und Politikplatz", "Ein Tempel", "Eine Gladiatorenschule"],
+          "correctIndex": 1,
+          "explanation": "forum, -i n. = der Marktplatz, das politische Zentrum. Das Forum Romanum war das Herz des Imperiums. Das Wort lebt heute in 'Forum' (Diskussionsplatz) weiter."
+        },
+        {
+          "id": "ges_e_004",
+          "question": "In welchem Jahr wurde Rom laut Überlieferung gegründet?",
+          "options": ["509 v. Chr.", "264 v. Chr.", "753 v. Chr.", "44 v. Chr."],
+          "correctIndex": 2,
+          "explanation": "Roma condita est anno 753 a. Chr. — 'ab urbe condita' (seit Gründung der Stadt) war die römische Jahreszählung. 753 v. Chr. = Jahr 1 a. u. c."
+        },
+        {
+          "id": "ges_e_005",
+          "question": "Was bedeutet 'via' auf Deutsch?",
+          "options": ["Brücke", "Strasse / Weg", "Markt", "Mauer"],
+          "correctIndex": 1,
+          "explanation": "via, -ae f. (1. Deklination) = die Strasse, der Weg. Berühmteste: Via Appia (312 v. Chr.). Das Wort lebt heute in 'via' (über, durch) auf Deutsch und Englisch weiter."
+        },
+        {
+          "id": "ges_e_006",
+          "question": "Was bedeutet 'imperator' ursprünglich?",
+          "options": ["König", "Feldherr / Oberbefehlshaber", "Priester", "Steuereintreiber"],
+          "correctIndex": 1,
+          "explanation": "imperator (von imperare = befehlen) war ursprünglich ein Ehrentitel für siegreiche Feldherren. Augustus machte daraus einen permanenten Titel — Ursprung unseres Wortes 'Kaiser'."
+        },
+        {
+          "id": "ges_e_007",
+          "question": "Wie nannte man die zwei gewählten Oberbeamten der Römischen Republik?",
+          "options": ["Imperatores", "Consules", "Senatores", "Censores"],
+          "correctIndex": 1,
+          "explanation": "Die Consules (Konsuln) wurden jährlich gewählt und waren die höchsten Beamten der Republik. Die Römer datieren nach Konsuln: 'anno consulibus X et Y' (im Jahr der Konsuln X und Y)."
+        },
+        {
+          "id": "ges_e_008",
+          "question": "Was bedeutet 'castra' auf Deutsch?",
+          "options": ["Burg", "Militärlager", "Hafen", "Stadtmauer"],
+          "correctIndex": 1,
+          "explanation": "castra, -orum n. Pl. = das (Militär-)Lager. In englischen Ortsnamen steckt es noch heute: Lancaster, Chester, Winchester (alle von lat. castra)."
+        }
+      ],
+      "mittel": [
+        {
+          "id": "ges_m_001",
+          "question": "Wie heisst das Datum der Ermordung Caesars auf Lateinisch?",
+          "options": ["Calendae Martiae", "Nonae Martiae", "Idus Martiae", "Feriae Martiae"],
+          "correctIndex": 2,
+          "explanation": "Die Idus Martiae (Iden des März) = 15. März 44 v. Chr. Die Römer teilten den Monat in Calendae (1.), Nonae (5./7.) und Idus (13./15.) ein."
+        },
+        {
+          "id": "ges_m_002",
+          "question": "Was bedeutet 'Gallia est omnis divisa in partes tres'?",
+          "options": [
+            "Gallien kämpft in drei grossen Schlachten",
+            "Ganz Gallien ist in drei Teile geteilt",
+            "Die drei Teile Galliens sind besiegt",
+            "Gallien war einst Teil von drei Völkern"
+          ],
+          "correctIndex": 1,
+          "explanation": "Caesars berühmtester Eröffnungssatz: omnis (ganz), divisa (PPP von dividere, geteilt), partes tres (Akk. Pl., drei Teile). De bello Gallico, Buch I."
+        },
+        {
+          "id": "ges_m_003",
+          "question": "Was sagte Caesar laut Sueton beim Anblick des Brutus unter den Mördern?",
+          "options": ["Veni, vidi, vici", "Et tu, Brute?", "Alea iacta est", "Morituri te salutant"],
+          "correctIndex": 1,
+          "explanation": "'Et tu, Brute?' (Auch du, Brutus?) — Sueton überliefert die griechische Version. Der Ausruf drückt tiefen Verrat durch einen Vertrauten aus und wurde durch Shakespeare weltberühmt."
+        },
+        {
+          "id": "ges_m_004",
+          "question": "Was bedeutet 'res publica' wörtlich?",
+          "options": ["die Staatssache / das öffentliche Ding", "der öffentliche Weg", "das Volk des Staates", "die Macht des Senats"],
+          "correctIndex": 0,
+          "explanation": "res (Sache, Ding) + publica (öffentlich) = 'die öffentliche Sache'. Daraus entstand unser Wort 'Republik'. Die Römer verstanden darunter den Staat als Gemeinschaft aller Bürger."
+        },
+        {
+          "id": "ges_m_005",
+          "question": "Was ist der Ablativus Absolutus in 'Caesare duce, Romani vicerunt'?",
+          "options": [
+            "Romani vicerunt",
+            "Caesare duce",
+            "vicerunt",
+            "duce"
+          ],
+          "correctIndex": 1,
+          "explanation": "'Caesare duce' = Ablativus Absolutus: Substantiv + Prädikativum im Ablativ. Übersetzung: 'Unter Caesars Führung / Als Caesar Anführer war, siegten die Römer.'"
+        },
+        {
+          "id": "ges_m_006",
+          "question": "Wer war Cicero?",
+          "options": [
+            "Ein römischer Kaiser",
+            "Der Feldherr, der Gallien besiegte",
+            "Ein Redner, Philosoph und Konsul der späten Republik",
+            "Der erste christliche Bischof Roms"
+          ],
+          "correctIndex": 2,
+          "explanation": "Marcus Tullius Cicero (106–43 v. Chr.): Konsul 63 v. Chr., bedeutendster römischer Redner. Sein Werk ist zentrales Lektüreangebot im Latinum. Bekannt durch die Catilinarischen Reden."
+        }
+      ],
+      "schwer": [
+        {
+          "id": "ges_s_001",
+          "question": "Cicero beginnt die erste Catilinaria: 'Quo usque tandem abutere, Catilina, patientia nostra?' Was ist 'patientia nostra' grammatikalisch?",
+          "options": [
+            "Nominativ Singular — Subjekt",
+            "Ablativ Singular — Objekt von abutere",
+            "Genitiv Plural — der Geduld von uns allen",
+            "Akkusativ Singular — direktes Objekt"
+          ],
+          "correctIndex": 1,
+          "explanation": "abutere (= abuteris, 2. Sg. Präsens Deponens von abuti) regiert den Ablativ. patientia nostra = Ablativ Sg.: 'Wie lange noch wirst du unsere Geduld missbrauchen?' — Cicero greift Catilina im Senat an, 63 v. Chr."
+        },
+        {
+          "id": "ges_s_002",
+          "question": "Was bezeichnet man als 'Pax Romana'?",
+          "options": [
+            "Den Friedensvertrag zwischen Rom und Karthago",
+            "Eine lange Friedensperiode im Römischen Reich (ca. 27 v. Chr. bis 180 n. Chr.)",
+            "Die Einigung des Senats mit Augustus",
+            "Den Frieden nach dem Ende der Bürgerkriege unter Caesar"
+          ],
+          "correctIndex": 1,
+          "explanation": "Die Pax Romana (ca. 27 v. Chr. bis 180 n. Chr.) war eine Epoche relativer innerer Stabilität im Imperium Romanum, beginnend mit Augustus. Der Begriff selbst ist modern, nicht antik."
+        },
+        {
+          "id": "ges_s_003",
+          "question": "Caesar schreibt im Bellum Gallicum: 'Horum omnium fortissimi sunt Belgae.' Was ist 'Horum omnium' grammatikalisch?",
+          "options": [
+            "Nominativ Plural — Subjekt",
+            "Akkusativ Plural — Objekt",
+            "Genitiv Plural — 'von allen diesen'",
+            "Ablativ Plural — Instrument"
+          ],
+          "correctIndex": 2,
+          "explanation": "Horum omnium = Genitiv Plural (Genitivus partitivus / des Ganzen): 'Von allen diesen (Völkern) sind die Belgier die Tapfersten.' — Superlativ (fortissimi) mit Genitivus partitivus: Standardkonstruktion bei Caesar."
+        }
+      ]
+    },
+
+    "alltagslatein": {
+      "leicht": [
+        {
+          "id": "all_e_001",
+          "question": "Was bedeutet die Abkürzung 'etc.' (et cetera)?",
+          "options": ["und so fort / und das Übrige", "zum Beispiel", "das heisst", "vergleiche"],
+          "correctIndex": 0,
+          "explanation": "et cetera (lat.) = 'und das Übrige / und so weiter'. et = und, cetera = das Übrige. Eine der häufigsten lateinischen Abkürzungen im Deutschen und Englischen."
+        },
+        {
+          "id": "all_e_002",
+          "question": "Was bedeutet 'e.g.' in englischen Texten?",
+          "options": ["zum Beispiel (exempli gratia)", "das heisst (id est)", "und so weiter (et cetera)", "vergleiche (confer)"],
+          "correctIndex": 0,
+          "explanation": "e.g. = exempli gratia (lat.) = 'zum Beispiel'. exemplum = Beispiel, gratia = zuliebe (Ablativ). Im Deutschen entspricht dies 'z. B.' (zum Beispiel)."
+        },
+        {
+          "id": "all_e_003",
+          "question": "Was bedeutet der Markenname 'Audi'?",
+          "options": ["Ich fahre (lat. ago)", "Höre! (lat. audi)", "Ich baue (lat. aedifico)", "Schnell (lat. celer)"],
+          "correctIndex": 1,
+          "explanation": "Audi = Imperativ von audire (hören) = 'Höre!' Der Gründer hiess August Horch — Horch ist die deutsche Übersetzung von audi. Eine direkte Übertragung eines deutschen Namens ins Lateinische."
+        },
+        {
+          "id": "all_e_004",
+          "question": "Was ist ein 'Aquarium' — woher kommt das Wort?",
+          "options": ["Von aqua (Wasser) — ein Wasserbehälter", "Von aequus (gleich) — ein gleichmässiger Behälter", "Von aquila (Adler) — ein Vogelkäfig", "Von arena (Sand) — ein Sandbehälter"],
+          "correctIndex": 0,
+          "explanation": "Aquarium kommt von aqua (Wasser). Das Suffix -arium bezeichnet einen Ort oder Behälter. Weitere Beispiele: terrarium (terra = Erde), vivarium (vivus = lebendig)."
+        },
+        {
+          "id": "all_e_005",
+          "question": "Was bedeutet 'ad hoc'?",
+          "options": ["für diesen Zweck / spontan", "nach dem Gesetz", "durch Erfahrung", "von Anfang an"],
+          "correctIndex": 0,
+          "explanation": "ad hoc (lat.) = 'zu diesem (Zweck)' — bezeichnet etwas, das speziell für eine Situation gemacht wird, ohne Vorbereitung. ad = zu, hoc = diesem."
+        },
+        {
+          "id": "all_e_006",
+          "question": "Welche Sprache hat die meisten direkten lateinischen Wörter geerbt?",
+          "options": ["Englisch", "Deutsch", "Spanisch oder Italienisch", "Griechisch"],
+          "correctIndex": 2,
+          "explanation": "Romanische Sprachen (Spanisch, Italienisch, Französisch, Portugiesisch, Rumänisch) stammen direkt vom Latein ab. Über 80 % ihres Grundwortschatzes sind lateinischen Ursprungs."
+        },
+        {
+          "id": "all_e_007",
+          "question": "Was bedeutet 'per' in 'per E-Mail' oder 'per Zufall'?",
+          "options": ["durch / mittels", "vor", "nach", "ohne"],
+          "correctIndex": 0,
+          "explanation": "per (lat.) = durch, mittels, hindurch. per + Akkusativ. Das Wort ist direkt ins Deutsche und Englische übernommen worden und täglich in Gebrauch."
+        },
+        {
+          "id": "all_e_008",
+          "question": "Was bedeutet das lateinische Wort 'virus'?",
+          "options": ["Gift / Schleim", "Krankheit", "Fieber", "Bakterium"],
+          "correctIndex": 0,
+          "explanation": "virus, -i n. (2. Deklination) = Gift, Schleim, Saft. Die Römer kannten das Wort für tierisches Gift. Die moderne Bedeutung 'Krankheitserreger' entstand im 19. Jh., als man winzige Krankheitserreger entdeckte."
+        }
+      ],
+      "mittel": [
+        {
+          "id": "all_m_001",
+          "question": "Was bedeutet 'Veni, vidi, vici' und wem wird der Ausspruch zugeschrieben?",
+          "options": [
+            "Ich kam, ich sah, ich siegte — Julius Caesar",
+            "Ich kämpfte, ich litt, ich überlebte — Cicero",
+            "Ich reiste, ich lernte, ich kehrte zurück — Augustus",
+            "Ich regierte, ich baute, ich lebte — Hadrian"
+          ],
+          "correctIndex": 0,
+          "explanation": "Caesar schrieb nach seinem Blitzsieg über Pharnakes II. (47 v. Chr.): 'Veni, vidi, vici.' Perfekt von venire, videre, vincere. Die dreigliedrige Klimax (Steigerung) macht den Satz unvergesslich."
+        },
+        {
+          "id": "all_m_002",
+          "question": "Was bedeutet 'status quo'?",
+          "options": [
+            "der gegenwärtige Zustand (wie er ist)",
+            "das neue Gesetz",
+            "der frühere Zustand",
+            "die offizielle Position"
+          ],
+          "correctIndex": 0,
+          "explanation": "status quo (lat.) = 'der Zustand, wie er (jetzt) ist' — bezeichnet den bestehenden Zustand, den man erhalten oder verändern möchte. status = Zustand, quo = wie/worin (Ablativ)."
+        },
+        {
+          "id": "all_m_003",
+          "question": "Woher stammt die Wendung 'den Rubikon überschreiten'?",
+          "options": [
+            "Caesar überschritt 49 v. Chr. den Grenzfluss Rubicon und löste damit den Bürgerkrieg aus",
+            "Hannibal überschritt die Alpen und griff Rom an",
+            "Augustus überschritt die Grenzen des Imperiums nach Germanien",
+            "Romulus überschritt die Mauern Roms und tötete seinen Bruder Remus"
+          ],
+          "correctIndex": 0,
+          "explanation": "Caesar überschritt am 10. Januar 49 v. Chr. den Rubicon (Grenzfluss zwischen seiner Provinz und Italien) mit seinem Heer — ein illegaler Akt. Dabei soll er gesagt haben: 'Alea iacta est' (Die Würfel sind gefallen)."
+        },
+        {
+          "id": "all_m_004",
+          "question": "Was bedeutet 'carpe diem' und aus welchem Werk stammt es?",
+          "options": [
+            "Nutze den Tag — Horaz, Carmina I,11",
+            "Fürchte den Tod — Vergil, Aeneis",
+            "Lebe das Leben — Ovid, Metamorphosen",
+            "Gedenke des Todes — Cicero, De Senectute"
+          ],
+          "correctIndex": 0,
+          "explanation": "carpe diem = 'Pflücke/Ergreife den Tag' — Horaz (65–8 v. Chr.), Carmina I, 11. carpere = pflücken/ergreifen, diem = Akk. von dies. Der volle Satz: 'carpe diem, quam minimum credula postero' (Nutze den Tag, vertrau so wenig wie möglich auf den morgigen)."
+        },
+        {
+          "id": "all_m_005",
+          "question": "Was bedeutet der medizinische Ausdruck 'in vitro'?",
+          "options": [
+            "im Glas / ausserhalb des Körpers (im Reagenzglas)",
+            "im Körper / innerhalb des Organismus",
+            "unter dem Mikroskop",
+            "nach der Operation"
+          ],
+          "correctIndex": 0,
+          "explanation": "in vitro (lat.) = 'im Glas' — bezeichnet Experimente ausserhalb eines lebenden Organismus (z. B. im Reagenzglas). Gegenteil: in vivo (= 'im Lebenden', im Organismus). vitrum = Glas."
+        },
+        {
+          "id": "all_m_006",
+          "question": "Was ist ein 'curriculum vitae' (CV)?",
+          "options": [
+            "Lebenslauf (wörtl.: Lauf des Lebens)",
+            "Studienprogramm",
+            "Tagesablauf",
+            "Lebensphilosophie"
+          ],
+          "correctIndex": 0,
+          "explanation": "curriculum vitae = 'Lauf/Verlauf des Lebens'. curriculum von currere (laufen), vitae = Genitiv von vita. Das CV oder Resumé ist in jedem Bewerbungsprozess gefordert."
+        },
+        {
+          "id": "all_m_007",
+          "question": "Von welchem Alltagsgegenstand leitet sich der medizinische Fachbegriff für das Schlüsselbein etymologisch ab?",
+          "options": [
+            "Kleiner Schlüssel",
+            "Kleiner Haken",
+            "Kleiner Nagel",
+            "Kleines Schwert"
+          ],
+          "correctIndex": 0,
+          "explanation": "'Clavicula' ist das Diminutiv von clavis (= Schlüssel). Die Römer verglichen den geschwungenen Knochen mit einem kleinen Schliessriegel. Derselbe Wortstamm steckt in 'Klaviatur' (lat. clavis = Taste) und 'Klavichord'."
+        }
+      ],
+      "schwer": [
+        {
+          "id": "all_s_001",
+          "question": "Was bedeutet 'habeas corpus' im Rechtskontext?",
+          "options": [
+            "Du sollst den Körper haben — Grundrecht auf persönliche Freiheit",
+            "Er hat das Recht — Urteilsformel",
+            "Der Körper ist Beweis — forensischer Begriff",
+            "Besitz ist neun Zehntel des Gesetzes — Eigentumsrecht"
+          ],
+          "correctIndex": 0,
+          "explanation": "'Habeas corpus' (lat. = 'Du sollst den Körper haben') ist ein seit 1679 in England verbrieftes Grundrecht: Niemand darf ohne richterlichen Beschluss inhaftiert werden. Konjunktiv Präsens (Adhortativ): habeas = du sollst/mögest haben."
+        },
+        {
+          "id": "all_s_002",
+          "question": "Was bedeutet 'de facto' im Unterschied zu 'de iure'?",
+          "options": [
+            "de facto = tatsächlich; de iure = rechtlich/formal",
+            "de facto = offiziell; de iure = inoffiziell",
+            "de facto = historisch; de iure = aktuell",
+            "de facto = international; de iure = national"
+          ],
+          "correctIndex": 0,
+          "explanation": "de facto (von factum = Tat) = tatsächlich, in der Praxis. de iure (von ius = Recht) = nach dem Gesetz, formal. Beispiel: Die DDR war de facto ein Staat, de iure von manchen Staaten nicht anerkannt."
+        },
+        {
+          "id": "all_s_003",
+          "question": "Warum gibt es im Kirchenlatein noch heute eine lebendige Latinität?",
+          "options": [
+            "Der Vatikan hat Latein als offizielle Amtssprache und veröffentlicht Dokumente auf Latein",
+            "Die Kirche unterrichtet Latein in allen Schulen Italiens",
+            "Lateinische Predigten sind in der Schweiz noch Pflicht",
+            "Latein ist die Sprache aller christlichen Gottesdienste weltweit"
+          ],
+          "correctIndex": 0,
+          "explanation": "Der Vatikan ist offiziell lateinischsprachig. Päpstliche Dekrete erscheinen auf Latein, die Hymnen des Stundengebets sind lateinisch, und der Rundfunksender Radio Vatikan sendet täglich auf Latein (Nuntii Latini)."
+        }
+      ]
+    },
+
+    "ueberrasche": {
+      "leicht": [
+        {
+          "id": "uer_e_001",
+          "question": "Was bedeutet das Wort 'luna' auf Latein?",
+          "options": ["Sonne", "Mond", "Stern", "Nacht"],
+          "correctIndex": 1,
+          "explanation": "luna, -ae f. = der Mond (1. Deklination). Der Wochentag Montag (frz. lundi, engl. Monday) leitet sich von luna ab. Auch 'Lunarsystem', 'Monat' (von Mond) gehören in diesen Bedeutungskreis."
+        },
+        {
+          "id": "uer_e_002",
+          "question": "Wie sagt man auf Latein 'Guten Tag'?",
+          "options": ["Salve!", "Vale!", "Ave!", "Bene!"],
+          "correctIndex": 0,
+          "explanation": "Salve! (von salvere = gesund sein) = Sei gegrüsst! / Guten Tag! Vale! = Leb wohl! (Abschiedsgruss). Ave! ist feierlicher (Ave Caesar! Ave Maria!)."
+        },
+        {
+          "id": "uer_e_003",
+          "question": "Was bedeutet 'terra' auf Deutsch?",
+          "options": ["Wasser", "Luft", "Erde / Land", "Feuer"],
+          "correctIndex": 2,
+          "explanation": "terra, -ae f. = die Erde, das Land. Steckt in 'Terrain', 'Terrasse', 'Mediterran' (medius = Mitte + terra), 'extraterrestrisch' und im Namen des Planeten Erde (Terra)."
+        },
+        {
+          "id": "uer_e_004",
+          "question": "Was bedeutet 'amor' auf Latein?",
+          "options": ["Hass", "Freundschaft", "Liebe", "Frieden"],
+          "correctIndex": 2,
+          "explanation": "amor, amoris m. = die Liebe. Interessant: Roma rückwärts ergibt amor — ein beliebtes antikes Wortspiel. Amor ist auch der Liebesgott (griech. Eros)."
+        },
+        {
+          "id": "uer_e_005",
+          "question": "Welcher Wochentag ist nach dem lateinischen Gott Saturn benannt?",
+          "options": ["Freitag", "Samstag", "Sonntag", "Donnerstag"],
+          "correctIndex": 1,
+          "explanation": "Samstag = Saturday (engl.) = Saturni dies = Tag des Saturn. Donnerstag = Jovis dies (Jupiter). Freitag = Veneris dies (Venus). Sonntag = Solis dies (Sol, die Sonne)."
+        },
+        {
+          "id": "uer_e_006",
+          "question": "Was bedeutet 'pax' auf Latein?",
+          "options": ["Krieg", "Frieden", "Vertrag", "Sieg"],
+          "correctIndex": 1,
+          "explanation": "pax, pacis f. (3. Deklination) = der Frieden. Steckt in 'pazifisch', 'Pazifist', 'Pakt' (pactum) und im Gruss 'pax vobiscum' (Friede sei mit euch)."
+        },
+        {
+          "id": "uer_e_007",
+          "question": "Was bedeutet 'magnus' auf Deutsch?",
+          "options": ["klein", "schnell", "gross", "stark"],
+          "correctIndex": 2,
+          "explanation": "magnus, -a, -um = gross. Bekannte Träger: Alexander Magnus (der Grosse), Karl der Grosse (Carolus Magnus). Steckt auch in 'Magnum' (grosse Flasche) und 'Magnitude' (Grösse)."
+        },
+        {
+          "id": "uer_e_008",
+          "question": "Wie viele Fälle (Kasus) hat die lateinische Deklination?",
+          "options": ["3", "4", "6", "8"],
+          "correctIndex": 2,
+          "explanation": "Das Lateinische hat 6 Kasus: Nominativ, Genitiv, Dativ, Akkusativ, Ablativ, Vokativ. Deutsch hat 4 (Nom., Gen., Dat., Akk.). Altgriechisch hat auch nur 5, Sanskrit hatte 8."
+        }
+      ],
+      "mittel": [
+        {
+          "id": "uer_m_001",
+          "question": "Was bedeutet 'sine qua non'?",
+          "options": [
+            "eine unbedingte Voraussetzung / unverzichtbare Bedingung",
+            "ohne Zweck / zwecklos",
+            "mit oder ohne Bedingung",
+            "eine optionale Ergänzung"
+          ],
+          "correctIndex": 0,
+          "explanation": "'sine qua non' (conditio sine qua non) = 'ohne die/welche nicht' — eine unverzichtbare Bedingung, ohne die etwas nicht funktioniert. sine = ohne, qua = welcher (Abl. f.), non = nicht."
+        },
+        {
+          "id": "uer_m_002",
+          "question": "Welche lateinische Konstruktion liegt in 'cogito, ergo sum' (Descartes) vor?",
+          "options": [
+            "AcI (Accusativus cum Infinitivo)",
+            "Drei koordinierte Hauptsätze mit Konjunktion ergo (also)",
+            "Ablativus Absolutus",
+            "Finalsatz mit ut"
+          ],
+          "correctIndex": 1,
+          "explanation": "'cogito, ergo sum' = 'Ich denke, also bin ich.' Drei Hauptsätze verbunden durch ergo (Schlussfolgerungskonjunktion). cogito = 1. Sg. Präs. von cogitare; sum = 1. Sg. Präs. von esse."
+        },
+        {
+          "id": "uer_m_003",
+          "question": "Was ist ein 'Gerundivum' — und welches Beispiel ist korrekt?",
+          "options": [
+            "Ein Verbalsubstantiv: 'legendum' = das Lesen",
+            "Ein verbales Adjektiv mit Notwendigkeitsbedeutung: 'legendum est' = Es muss gelesen werden",
+            "Eine Partizipialform der Vergangenheit: 'lectus' = gelesen",
+            "Ein Infinitiv der Zukunft: 'lecturus' = lesen wollen"
+          ],
+          "correctIndex": 1,
+          "explanation": "Das Gerundivum (nd-Form) ist ein verbales Adjektiv mit Notwendigkeit: 'Carthago delenda est' (Karthago muss zerstört werden — Cato). delenda = Gerundivum von delere. Das Gerundium (legendum) ist dagegen ein Verbalsubstantiv."
+        },
+        {
+          "id": "uer_m_004",
+          "question": "Was bedeutet 'alma mater' im Hochschulkontext?",
+          "options": [
+            "nährende Mutter — die Hochschule, die man besucht hat",
+            "hohe Schule — Synonym für Universität",
+            "strenge Mutter — für rigide Bildungssysteme",
+            "ewige Mutter — für Klöster mit Bildungsauftrag"
+          ],
+          "correctIndex": 0,
+          "explanation": "'alma mater' = 'nährende/gütige Mutter' (alma von alere = nähren). Bezeichnung für die eigene Hochschule. Auch Name eines Marienliedes. alma ist heute noch gebräuchlich in 'Almosen' (almosna < eleēmosynē)."
+        }
+      ],
+      "schwer": [
+        {
+          "id": "uer_s_001",
+          "question": "Was ist ein 'Chiasmus' — und welches Beispiel illustriert ihn?",
+          "options": [
+            "ABBA-Verschränkung: 'Non ut edam vivo, sed ut vivam edo' (Quintilian)",
+            "Dreifache Wiederholung: 'veni, vidi, vici'",
+            "Übertreibung: 'caelum ac terras miscere'",
+            "Auslassung: 'facile est — difficile non est'"
+          ],
+          "correctIndex": 0,
+          "explanation": "Chiasmus (griech. χ) = ABBA-Kreuzstellung. Bei Quintilian: A(esse) B(vivo) — B(vivam) A(edo). 'Nicht um zu essen lebe ich, sondern um zu leben esse ich.' Ein klassisches Stilmittel der lateinischen Rhetorik."
+        },
+        {
+          "id": "uer_s_002",
+          "question": "Was bezeichnet der Begriff 'Latium' und welche historische Bedeutung hat er?",
+          "options": [
+            "Die Region um Rom, deren Sprache (Latein) sich durch die römische Expansion verbreitete",
+            "Die lateinische Grammatik — Bezeichnung für das Regelsystem",
+            "Das Latinum — der Sprachnachweis für Hochschulzulassung",
+            "Das Gebiet der Latiner in Nordafrika"
+          ],
+          "correctIndex": 0,
+          "explanation": "Latium war die Region südlich des Tiber, Heimat der Latiner und Roms. Die Sprache der Latiner — Latein — verbreitete sich durch römische Conquista über das gesamte Mittelmeer und ist Ursprache aller romanischen Sprachen."
+        }
+      ]
+    }
+  }
+}
