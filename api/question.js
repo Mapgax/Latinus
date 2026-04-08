@@ -23,7 +23,7 @@ import {
   validateLatinWords,
 } from './validate-latin.js';
 import { validateWithPons } from './pons-lookup.js';
-import fallbackData from '../data/questions_all.json' assert { type: 'json' };
+import fallbackData from '../data/questions_all.json' with { type: 'json' };
 
 const MAX_RETRIES = 2;
 const DIFFICULTY_TO_FALLBACK_KEY = {
