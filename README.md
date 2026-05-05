@@ -17,8 +17,7 @@ Ein interaktives, gamifiziertes Latein-Quiz für die Kantonsschule Kollegium Sch
 
 ### 🌍 Mehrsprachigkeit
 - Deutsch
-- Latina (Latein)
-- Schwiizerdütsch
+- Latine (Latein)
 
 ### 🎨 Design
 - Römisch-inspiriertes, elegantes Design
