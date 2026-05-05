@@ -176,6 +176,14 @@ const LEAK_STOPWORDS = new Set([
   'satz', 'text', 'autor', 'werk', 'zitat',
 ]);
 
+const DUPLICATE_STOPWORDS = new Set([
+  ...LEAK_STOPWORDS,
+  'bedeutet', 'bedeutung', 'folgende', 'folgenden', 'optionen', 'richtig',
+  'korrekte', 'korrekten', 'antwort', 'erklärung', 'erklarung', 'welcher',
+  'welches', 'welche', 'bezeichnet', 'genannt', 'zugeschrieben', 'lateinische',
+  'lateinischen', 'römische', 'römischen', 'romische', 'romischen',
+]);
+
 function normalizeForLeak(str) {
   return (str || '')
     .toLowerCase()
@@ -189,6 +197,114 @@ function tokenize(str) {
   return normalizeForLeak(str)
     .split(' ')
     .filter(tok => tok.length >= 3 && !LEAK_STOPWORDS.has(tok));
+}
+
+function normalizeForDuplicate(str) {
+  return normalizeForLeak(str)
+    .split(' ')
+    .filter(tok => tok.length >= 4 && !DUPLICATE_STOPWORDS.has(tok))
+    .map(tok => tok.replace(/(en|er|es|em|e|n|s)$/u, ''))
+    .filter(tok => tok.length >= 4);
+}
+
+function uniqueTokens(tokens) {
+  return [...new Set(tokens)].sort();
+}
+
+function buildQuestionSignature(q) {
+  if (!q || typeof q.question !== 'string' || !Array.isArray(q.options)) return null;
+
+  const correctAnswer = q.options[q.correctIndex] || '';
+  const answerTokens = uniqueTokens(normalizeForDuplicate(correctAnswer));
+  const conceptTokens = uniqueTokens(normalizeForDuplicate([
+    q.question,
+    correctAnswer,
+    q.explanation || '',
+  ].join(' ')));
+
+  if (conceptTokens.length === 0) return null;
+
+  return {
+    answerKey: answerTokens.join('|'),
+    conceptKey: conceptTokens.slice(0, 12).join('|'),
+    tokens: conceptTokens,
+  };
+}
+
+function parseQuestionSignature(value) {
+  if (typeof value !== 'string' || value.trim() === '') return null;
+  const [answerKey = '', conceptKey = ''] = value.split('::');
+  const tokens = conceptKey.split('|').filter(Boolean);
+  if (!answerKey && tokens.length === 0) return null;
+  return { answerKey, conceptKey, tokens };
+}
+
+function serializeQuestionSignature(signature) {
+  if (!signature) return null;
+  return `${signature.answerKey || ''}::${signature.conceptKey || ''}`;
+}
+
+function buildTextSignature(questionText) {
+  const tokens = uniqueTokens(normalizeForDuplicate(questionText));
+  if (tokens.length === 0) return null;
+  return { answerKey: '', conceptKey: tokens.slice(0, 12).join('|'), tokens };
+}
+
+function jaccardSimilarity(aTokens, bTokens) {
+  const a = new Set(aTokens || []);
+  const b = new Set(bTokens || []);
+  if (a.size === 0 || b.size === 0) return 0;
+
+  let intersection = 0;
+  for (const token of a) {
+    if (b.has(token)) intersection++;
+  }
+
+  return intersection / (a.size + b.size - intersection);
+}
+
+function collectPreviousSignatures(previousQuestions, previousQuestionKeys) {
+  const signatures = [];
+
+  for (const key of previousQuestionKeys || []) {
+    const parsed = parseQuestionSignature(key);
+    if (parsed) signatures.push(parsed);
+  }
+
+  for (const questionText of previousQuestions || []) {
+    const signature = buildTextSignature(questionText);
+    if (signature) signatures.push(signature);
+  }
+
+  return signatures;
+}
+
+function checkDuplicateQuestion(q, previousSignatures) {
+  const signature = buildQuestionSignature(q);
+  if (!signature) return { duplicate: false, signature: null };
+
+  for (const previous of previousSignatures) {
+    const sameAnswer = signature.answerKey && previous.answerKey && signature.answerKey === previous.answerKey;
+    const conceptSimilarity = jaccardSimilarity(signature.tokens, previous.tokens);
+
+    if (sameAnswer && conceptSimilarity >= 0.35) {
+      return {
+        duplicate: true,
+        signature,
+        reason: `gleiche Antwort und ähnlicher Kontext (${Math.round(conceptSimilarity * 100)}%)`,
+      };
+    }
+
+    if (conceptSimilarity >= 0.62) {
+      return {
+        duplicate: true,
+        signature,
+        reason: `sehr ähnliche Frage (${Math.round(conceptSimilarity * 100)}%)`,
+      };
+    }
+  }
+
+  return { duplicate: false, signature };
 }
 
 /**
@@ -261,8 +377,14 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { difficulty = 'easy', topic = 'ueberraschung', previousQuestions = [] } = req.body || {};
+  const {
+    difficulty = 'easy',
+    topic = 'ueberraschung',
+    previousQuestions = [],
+    previousQuestionKeys = [],
+  } = req.body || {};
   const normalizedTopic = normalizeTopic(topic);
+  const previousSignatures = collectPreviousSignatures(previousQuestions, previousQuestionKeys);
 
   if (!DIFFICULTY_CONFIG[difficulty]) {
     return res.status(400).json({ error: `Ungültige Schwierigkeit: ${difficulty}` });
@@ -280,6 +402,19 @@ export default async function handler(req, res) {
         lastError,
       });
 
+      // ── 0. Anti-Duplikat-Check ────────────────────────────────────────
+      const duplicateCheck = checkDuplicateQuestion(questionData, previousSignatures);
+      if (duplicateCheck.duplicate) {
+        const reason = `Duplikatverdacht: ${duplicateCheck.reason}`;
+        console.log(`[Attempt ${attempt + 1}] ${reason}`);
+        if (attempt < MAX_RETRIES) {
+          lastError = reason;
+          continue;
+        }
+        console.warn('⚠️  Alle Versuche waren zu ähnlich — Fallback.');
+        return res.status(200).json(getFallbackQuestion(difficulty, normalizedTopic, previousSignatures));
+      }
+
       // ── 1. Anti-Self-Answering-Check ───────────────────────────────────
       const leakCheck = checkAnswerLeakage(questionData);
       if (!leakCheck.clean) {
@@ -290,7 +425,7 @@ export default async function handler(req, res) {
           continue;
         }
         console.warn('⚠️  Alle Versuche leaked die Antwort — Fallback.');
-        return res.status(200).json(getFallbackQuestion(difficulty, normalizedTopic));
+        return res.status(200).json(getFallbackQuestion(difficulty, normalizedTopic, previousSignatures));
       }
 
       // ── 2. Latein-Validierung (lokal + PONS-Fallback) ─────────────────
@@ -309,13 +444,14 @@ export default async function handler(req, res) {
           continue;
         }
         console.warn(`⚠️  Alle Versuche fehlgeschlagen. Fallback für ${difficulty}/${normalizedTopic}`);
-        return res.status(200).json(getFallbackQuestion(difficulty, normalizedTopic));
+        return res.status(200).json(getFallbackQuestion(difficulty, normalizedTopic, previousSignatures));
       }
 
       if (validation.warning) {
         questionData._warning = validation.warning;
       }
 
+      questionData._questionSignature = serializeQuestionSignature(duplicateCheck.signature);
       return res.status(200).json(questionData);
 
     } catch (error) {
@@ -324,7 +460,7 @@ export default async function handler(req, res) {
 
       if (attempt === MAX_RETRIES) {
         console.warn('⚠️  API-Fehler nach allen Versuchen. Fallback.');
-        return res.status(200).json(getFallbackQuestion(difficulty, normalizedTopic));
+        return res.status(200).json(getFallbackQuestion(difficulty, normalizedTopic, previousSignatures));
       }
     }
   }
@@ -351,7 +487,7 @@ async function generateQuestion({ difficulty, topic, previousQuestions, attempt,
 
   // Exclusion-Liste (max. 8 letzte Fragen)
   const exclusionNote = previousQuestions.length > 0
-    ? `\n\nBISHERIGE FRAGEN (nicht wiederholen!):\n${previousQuestions.slice(-8).map((q, i) => `${i + 1}. ${q}`).join('\n')}`
+    ? `\n\nBISHERIGE FRAGEN UND KONZEPTE (nicht wiederholen, auch nicht umformuliert!):\n${previousQuestions.slice(-12).map((q, i) => `${i + 1}. ${q}`).join('\n')}`
     : '';
 
   // Retry-Hinweis mit konkreter Fehlerbeschreibung
@@ -432,6 +568,11 @@ SCHWERPUNKT: ${randomKeyword}
 
 Erstelle eine NEUE, einzigartige Frage zu diesem Thema und Schwerpunkt.${exclusionNote}${retryNote}
 
+Wichtig: Wenn bisher z.B. schon nach Jupiter als Göttervater, Caesar als Diktator,
+Romulus/Remus, Aeneas, Augustus, dem Senat oder einem bestimmten Zitat gefragt wurde,
+darfst du nicht dieselbe Wissenseinheit erneut prüfen. Wähle dann eine andere Person,
+Institution, Episode, Form oder lateinische Wendung.
+
 Antworte mit exakt diesem JSON-Format:
 {
   "question": "Frage auf Deutsch (korrekte Antwort darf NICHT im Fragetext stehen!)",
@@ -486,7 +627,7 @@ Antworte mit exakt diesem JSON-Format:
 }
 
 // ── Statischer Fallback aus questions_all.json ────────────────────────────────
-function getFallbackQuestion(difficulty, topic) {
+function getFallbackQuestion(difficulty, topic, previousSignatures = []) {
   try {
     const fallbackDifficultyKey = DIFFICULTY_TO_FALLBACK_KEY[difficulty] || difficulty;
     const fallbackTopicKey = fallbackData.topics[topic] ? topic : 'ueberraschung';
@@ -494,26 +635,38 @@ function getFallbackQuestion(difficulty, topic) {
     const questions = topicData?.[fallbackDifficultyKey];
 
     if (questions && questions.length > 0) {
-      const q = questions[Math.floor(Math.random() * questions.length)];
-      return { ...q, _isFallback: true };
+      const freshQuestions = questions.filter(q => !checkDuplicateQuestion(q, previousSignatures).duplicate);
+      const pool = freshQuestions.length > 0 ? freshQuestions : questions;
+      const q = pool[Math.floor(Math.random() * pool.length)];
+      const signature = buildQuestionSignature(q);
+      return { ...q, _isFallback: true, _questionSignature: serializeQuestionSignature(signature) };
     }
 
-    return {
+    const defaultQuestion = {
       question: 'Was bedeutet das lateinische Wort "amicus"?',
       options: ['Feind', 'Freund', 'Bruder', 'Lehrer'],
       correctIndex: 1,
       explanation: 'amicus, -i m. (2. Deklination) = der Freund. Stammformen: amicus, amici.',
       _isFallback: true,
     };
+
+    return {
+      ...defaultQuestion,
+      _questionSignature: serializeQuestionSignature(buildQuestionSignature(defaultQuestion)),
+    };
   } catch (error) {
     console.error('Fehler beim Laden des Fallbacks:', error);
-    return {
+    const emergencyQuestion = {
       question: 'Was bedeutet "vita" auf Latein?',
       options: ['Tod', 'Sieg', 'Leben', 'Kraft'],
       correctIndex: 2,
       explanation:
         'vita, -ae f. (1. Deklination) = das Leben. Steckt in "vital", "Vitamin" und "revitalisieren".',
       _isFallback: true,
+    };
+    return {
+      ...emergencyQuestion,
+      _questionSignature: serializeQuestionSignature(buildQuestionSignature(emergencyQuestion)),
     };
   }
 }

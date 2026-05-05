@@ -798,6 +798,7 @@
         let correctAnswers    = 0;
         let totalQuestions    = 0;
         let previousQuestions = [];
+        let previousQuestionKeys = [];
 
         const pointValues = { easy: 10, medium: 25, hard: 50 };
 
@@ -908,7 +909,8 @@
                     body: JSON.stringify({
                         difficulty:        currentDifficulty,
                         topic:             currentTopic,
-                        previousQuestions: previousQuestions
+                        previousQuestions: previousQuestions,
+                        previousQuestionKeys: previousQuestionKeys
                     })
                 });
 
@@ -920,6 +922,11 @@
 
                 currentQuestion = await response.json();
                 previousQuestions.push(currentQuestion.question);
+                if (currentQuestion._questionSignature) {
+                    previousQuestionKeys.push(currentQuestion._questionSignature);
+                }
+                previousQuestions = previousQuestions.slice(-20);
+                previousQuestionKeys = previousQuestionKeys.slice(-20);
                 displayQuestion();
 
             } catch (error) {
@@ -1024,6 +1031,7 @@
         function resetToStart() {
             score = 0; correctAnswers = 0; totalQuestions = 0;
             previousQuestions = [];
+            previousQuestionKeys = [];
             currentDifficulty = null; currentTopic = null; currentQuestion = null;
             updateScore();
 
